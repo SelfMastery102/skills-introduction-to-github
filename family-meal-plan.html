@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Family Table — 1-Year Nutrition &amp; Meal Prep Plan · Manitoba</title>
+<style>
+  :root{
+    --green:#3e6b48; --green-dark:#2c4f34; --green-light:#e8f1ea;
+    --cream:#faf6ef; --brown:#7a5c3e; --terracotta:#c4663d;
+    --gold:#d9a441; --ink:#2b2b28; --muted:#6b6b62;
+    --winter:#5b7fa6; --spring:#6fa05c; --summer:#d98e2b; --fall:#b35c33;
+    --radius:14px;
+    --shadow:0 2px 10px rgba(43,43,40,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Georgia,'Times New Roman',serif;background:var(--cream);color:var(--ink);line-height:1.55}
+  h1,h2,h3,h4,.sans{font-family:'Segoe UI',Helvetica,Arial,sans-serif}
+
+  /* ---------- header ---------- */
+  header{background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;padding:38px 20px 30px;text-align:center}
+  header h1{font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:.5px}
+  header p.tag{margin-top:8px;font-style:italic;opacity:.9}
+  .badges{margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .badge{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);padding:5px 14px;border-radius:999px;font-size:.8rem;font-family:'Segoe UI',sans-serif}
+
+  /* ---------- nav ---------- */
+  nav{position:sticky;top:0;z-index:50;background:#fff;box-shadow:var(--shadow);display:flex;justify-content:center;flex-wrap:wrap;gap:4px;padding:8px}
+  nav button{font-family:'Segoe UI',sans-serif;font-size:.88rem;border:none;background:none;padding:9px 16px;border-radius:999px;cursor:pointer;color:var(--muted);transition:.2s}
+  nav button:hover{background:var(--green-light);color:var(--green-dark)}
+  nav button.active{background:var(--green);color:#fff}
+
+  main{max-width:1080px;margin:0 auto;padding:28px 16px 60px}
+  section.panel{display:none;animation:fade .35s ease}
+  section.panel.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .panel > h2{color:var(--green-dark);font-size:1.5rem;margin-bottom:6px}
+  .panel > p.lead{color:var(--muted);margin-bottom:22px;max-width:760px}
+
+  /* ---------- cards ---------- */
+  .grid{display:grid;gap:16px}
+  .grid.c3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .grid.c2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+  .card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+  .card h3{color:var(--green-dark);margin-bottom:8px;font-size:1.05rem}
+  .card .emoji{font-size:1.6rem;display:block;margin-bottom:8px}
+  .card ul{padding-left:18px;font-size:.93rem}
+  .card li{margin:4px 0}
+
+  /* ---------- plate chart ---------- */
+  .plate-wrap{display:flex;gap:28px;align-items:center;flex-wrap:wrap;justify-content:center;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-top:20px}
+  .plate{width:200px;height:200px;border-radius:50%;background:conic-gradient(var(--green) 0 50%,var(--terracotta) 50% 75%,var(--gold) 75% 100%);border:8px solid #f1ece1;flex-shrink:0}
+  .legend{font-family:'Segoe UI',sans-serif;font-size:.9rem}
+  .legend div{display:flex;align-items:center;gap:10px;margin:8px 0}
+  .swatch{width:16px;height:16px;border-radius:4px;flex-shrink:0}
+
+  /* ---------- month selector ---------- */
+  .month-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:6px;margin-bottom:20px}
+  .month-bar button{font-family:'Segoe UI',sans-serif;border:2px solid transparent;border-radius:10px;padding:8px 4px;cursor:pointer;background:#fff;box-shadow:var(--shadow);font-size:.8rem;line-height:1.3;transition:.15s}
+  .month-bar button small{display:block;font-size:.66rem;color:var(--muted)}
+  .month-bar button.sel{border-color:var(--green);background:var(--green-light)}
+  .season-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+
+  .month-head{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px}
+  .month-head h3{font-size:1.4rem;color:var(--green-dark)}
+  .pill{font-family:'Segoe UI',sans-serif;font-size:.75rem;color:#fff;padding:4px 12px;border-radius:999px}
+
+  .info-strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-bottom:18px}
+  .info-strip .card{padding:14px 16px}
+  .info-strip h4{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px}
+  .chiplist{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{background:var(--green-light);color:var(--green-dark);font-family:'Segoe UI',sans-serif;font-size:.78rem;padding:4px 10px;border-radius:999px}
+  .chip.baby{background:#fdeede;color:var(--terracotta)}
+
+  /* ---------- week table ---------- */
+  .day-accordion{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  .day{border-bottom:1px solid #efece4}
+  .day:last-child{border-bottom:none}
+  .day-head{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;font-family:'Segoe UI',sans-serif;font-size:.95rem;text-align:left}
+  .day-head:hover{background:var(--green-light)}
+  .day-head .dname{font-weight:600;color:var(--green-dark);width:110px;flex-shrink:0}
+  .day-head .preview{color:var(--muted);font-size:.85rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 10px}
+  .day-head .arrow{transition:.2s;color:var(--green)}
+  .day.open .arrow{transform:rotate(90deg)}
+  .day-body{display:none;padding:4px 18px 16px;background:#fcfaf5}
+  .day.open .day-body{display:block}
+  .meal-row{display:grid;grid-template-columns:110px 1fr;gap:8px;padding:7px 0;border-top:1px dashed #e6e1d4;font-size:.92rem}
+  .meal-row:first-child{border-top:none}
+  .meal-row .mlabel{font-family:'Segoe UI',sans-serif;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--brown);padding-top:2px}
+  .meal-row.babyrow .mlabel{color:var(--terracotta)}
+  .meal-row.babyrow{background:#fdf3ea;margin:4px -10px 0;padding:8px 10px;border-radius:8px;border-top:none}
+
+  /* ---------- baby timeline ---------- */
+  .timeline{position:relative;margin:10px 0 0 14px;padding-left:26px;border-left:3px solid var(--green-light)}
+  .tl-item{position:relative;padding:0 0 26px}
+  .tl-item::before{content:"";position:absolute;left:-37px;top:4px;width:17px;height:17px;border-radius:50%;background:var(--terracotta);border:4px solid var(--cream)}
+  .tl-item h4{color:var(--green-dark);font-size:1rem}
+  .tl-item .age{font-family:'Segoe UI',sans-serif;font-size:.74rem;color:#fff;background:var(--terracotta);padding:2px 10px;border-radius:999px;display:inline-block;margin-bottom:6px}
+  .tl-item p, .tl-item ul{font-size:.92rem;color:#444}
+  .tl-item ul{padding-left:18px;margin-top:4px}
+  .alert{background:#fdf3ea;border-left:4px solid var(--terracotta);border-radius:8px;padding:14px 16px;font-size:.9rem;margin-bottom:20px}
+  .alert b{color:var(--terracotta)}
+
+  /* ---------- checklist ---------- */
+  .checklist{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+  .checklist h3{color:var(--green-dark);margin-bottom:4px}
+  .checklist p.sub{font-size:.85rem;color:var(--muted);margin-bottom:12px}
+  .check-item{display:flex;gap:10px;align-items:flex-start;padding:8px 6px;border-radius:8px;cursor:pointer;font-size:.93rem}
+  .check-item:hover{background:var(--green-light)}
+  .check-item input{margin-top:4px;accent-color:var(--green);width:16px;height:16px;flex-shrink:0;cursor:pointer}
+  .check-item.done span{text-decoration:line-through;color:#9a9a8e}
+  .progress{height:10px;background:#eee8da;border-radius:999px;margin:8px 0 16px;overflow:hidden}
+  .progress div{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));width:0;transition:.3s;border-radius:999px}
+
+  /* ---------- sourcing ---------- */
+  .src-card h3{display:flex;align-items:center;gap:8px}
+  .src-card .where{font-family:'Segoe UI',sans-serif;font-size:.78rem;color:var(--muted);margin-bottom:8px}
+
+  footer{background:var(--green-dark);color:#dfe9e1;text-align:center;padding:26px 18px;font-size:.82rem;font-family:'Segoe UI',sans-serif}
+  footer b{color:#fff}
+  @media(max-width:600px){
+    .day-head .preview{display:none}
+    .meal-row{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌾 Our Family Table</h1>
+  <p class="tag">A one-year nutrition &amp; meal-prep plan for Mom, Dad &amp; Baby — rooted in Manitoba, Canada</p>
+  <div class="badges">
+    <span class="badge">🥩 Grass-fed &amp; pasture-raised</span>
+    <span class="badge">🌱 Clean, whole-food sources</span>
+    <span class="badge">🍁 Manitoba seasonal &amp; local</span>
+    <span class="badge">👶 Baby-solids journey: 5 → 16 months</span>
+  </div>
+</header>
+
+<nav id="nav">
+  <button data-panel="overview" class="active">Overview</button>
+  <button data-panel="yearplan">12-Month Plan</button>
+  <button data-panel="baby">Baby's Solids Journey</button>
+  <button data-panel="prep">Weekly Prep Routine</button>
+  <button data-panel="sourcing">Manitoba Sourcing</button>
+</nav>
+
+<main>
+
+<!-- ================= OVERVIEW ================= -->
+<section class="panel show" id="overview">
+  <h2>How this plan works</h2>
+  <p class="lead">A simple, repeatable rhythm: one big prep on Sunday, fresh dinners that double as next-day lunches, and baby foods made from the same clean ingredients the parents eat — no separate "baby aisle" needed. The plan runs <b>June 2026 → May 2027</b>, following Manitoba's seasons and your baby's growth from 5 months to about 16 months.</p>
+
+  <div class="grid c3">
+    <div class="card"><span class="emoji">🥩</span><h3>Clean proteins first</h3>
+      <ul><li>Grass-fed &amp; grass-finished Manitoba beef and bison</li><li>Pasture-raised chicken, turkey &amp; eggs</li><li>Wild-caught Manitoba pickerel (walleye), lake trout &amp; whitefish</li><li>Pasture-raised pork in moderation</li></ul></div>
+    <div class="card"><span class="emoji">🥕</span><h3>Whole, natural foods</h3>
+      <ul><li>Seasonal Manitoba vegetables &amp; prairie fruit (saskatoons, raspberries, sour cherries)</li><li>Root-cellar staples for winter: squash, carrots, beets, potatoes, cabbage</li><li>Manitoba oats, wild rice, hemp hearts, lentils</li><li>Butter, olive oil, full-fat dairy if tolerated — nothing ultra-processed</li></ul></div>
+    <div class="card"><span class="emoji">👶</span><h3>One kitchen, three eaters</h3>
+      <ul><li>Baby eats simplified versions of family meals (no added salt, sugar or honey before 12 months)</li><li>Iron-rich first foods — key for breastfed babies at 6 months</li><li>Purées → mashes → soft finger foods → family table</li></ul></div>
+  </div>
+
+  <div class="plate-wrap">
+    <div class="plate" role="img" aria-label="Plate chart: half vegetables and fruit, quarter protein, quarter whole grains and starches"></div>
+    <div class="legend">
+      <h3 style="color:var(--green-dark);margin-bottom:6px">The everyday plate</h3>
+      <div><span class="swatch" style="background:var(--green)"></span> ½ vegetables &amp; fruit — seasonal, local where possible</div>
+      <div><span class="swatch" style="background:var(--terracotta)"></span> ¼ protein — grass-fed meat, wild fish, eggs, legumes</div>
+      <div><span class="swatch" style="background:var(--gold)"></span> ¼ whole grains &amp; starchy veg — oats, wild rice, potatoes, squash</div>
+      <p style="margin-top:10px;font-size:.84rem;color:var(--muted)">Plus healthy fats (butter, olive oil, avocado) and water as the main drink. Vitamin D matters on the prairies — especially October to April.</p>
+    </div>
+  </div>
+
+  <div class="grid c3" style="margin-top:20px">
+    <div class="card"><span class="emoji">👩</span><h3>Mom</h3><ul><li>~2,100–2,500 kcal/day (more if breastfeeding: +350–500 kcal)</li><li>Priorities: iron, omega-3 (fish 2×/week), calcium, vitamin D, plenty of fluids</li><li>Snacks built into the plan — no running on empty</li></ul></div>
+    <div class="card"><span class="emoji">👨</span><h3>Dad</h3><ul><li>~2,400–2,800 kcal/day depending on activity</li><li>Protein at every meal; bigger portions of the same dishes</li><li>Hearty prairie staples: bison chili, roasts, pickerel fry</li></ul></div>
+    <div class="card"><span class="emoji">👶</span><h3>Baby (5 months now)</h3><ul><li>Breast milk or formula stays the main food all year</li><li>Solids begin around 6 months, per Health Canada guidance</li><li>By 12 months: 3 small meals + snacks from the family table</li></ul></div>
+  </div>
+</section>
+
+<!-- ================= YEAR PLAN ================= -->
+<section class="panel" id="yearplan">
+  <h2>The 12-month plan</h2>
+  <p class="lead">Pick a month. Each one shows what's in season in Manitoba, your baby's stage, and a full 7-day rotation (repeat it weekly, swapping vegetables and cuts as the market changes). Click any day to expand it.</p>
+  <div class="month-bar" id="monthBar"></div>
+  <div id="monthView"></div>
+</section>
+
+<!-- ================= BABY ================= -->
+<section class="panel" id="baby">
+  <h2>Baby's solids journey — 5 to 16 months</h2>
+  <p class="lead">Baby is 5 months old now. Health Canada recommends starting solids at <b>about 6 months</b>, when baby shows readiness signs — so this first month is for watching and preparing, not feeding.</p>
+
+  <div class="alert"><b>Safety essentials:</b> no honey before 12 months (botulism risk) · no added salt or sugar · no whole nuts, hard raw veg or other choking hazards · introduce common allergens (peanut, egg, fish, dairy, wheat) one at a time, early and often, ideally starting around 6 months · always feed seated and supervised · this page is a planning aid, not medical advice — confirm details with your doctor or public-health nurse.</div>
+
+  <div class="timeline">
+    <div class="tl-item"><span class="age">5 months · June</span><h4>Watch &amp; prepare</h4>
+      <p>Milk only. Look for readiness: sits with little support, good head control, reaches for food, lost the tongue-thrust reflex.</p>
+      <ul><li>Buy: small blender or food mill, silicone ice-cube trays, soft spoons, bibs, suction bowl</li><li>Let baby join the table at mealtimes to watch you eat</li></ul></div>
+    <div class="tl-item"><span class="age">6 months · July</span><h4>First tastes — iron first</h4>
+      <p>Start with iron-rich foods once a day, 1–2 teaspoons, working up.</p>
+      <ul><li>Puréed grass-fed beef or bison (simmered, blended with broth)</li><li>Iron-fortified oat cereal made with Manitoba oats</li><li>Single veg purées: carrot, squash, zucchini from the garden/market</li><li>Begin allergen introductions: well-cooked egg yolk-and-white purée, smooth peanut butter thinned into purée</li></ul></div>
+    <div class="tl-item"><span class="age">7–8 months · Aug–Sep</span><h4>Thicker mashes &amp; harvest flavours</h4>
+      <ul><li>2 meals/day → mashed, lumpier textures</li><li>Flaked Manitoba pickerel (bones carefully removed), lentil mash, mashed saskatoons &amp; raspberries</li><li>Soft finger foods: steamed carrot sticks, ripe pear slices, toast strips</li><li>Offer water in an open cup at meals</li></ul></div>
+    <div class="tl-item"><span class="age">9–11 months · Oct–Dec</span><h4>Finger-food explorer</h4>
+      <ul><li>3 meals/day plus milk feeds; baby largely self-feeds soft pieces</li><li>Shredded pot-roast beef, meatballs, scrambled egg, soft-cooked squash cubes, beans</li><li>Mini versions of family stews and soups (set baby's portion aside before salting)</li></ul></div>
+    <div class="tl-item"><span class="age">12 months · January</span><h4>Joining the family table 🎉</h4>
+      <ul><li>Eats the family meals, chopped small; whole pasteurized milk can be offered</li><li>Honey now okay; still keep salt and sugar low</li><li>3 meals + 2 snacks; milk feeds taper naturally</li></ul></div>
+    <div class="tl-item"><span class="age">13–16 months · Feb–May</span><h4>Confident toddler eater</h4>
+      <ul><li>Same food as parents — just cut safely (halve grapes/cherries, no whole nuts)</li><li>Practice with a spoon and fork; expect mess, keep offering variety</li><li>Appetite swings are normal — parents decide <i>what &amp; when</i>, toddler decides <i>how much</i></li></ul></div>
+  </div>
+</section>
+
+<!-- ================= PREP ================= -->
+<section class="panel" id="prep">
+  <h2>The weekly prep routine</h2>
+  <p class="lead">About 2½ hours on Sunday sets up the whole week. Tick items off as you go — progress saves on this device.</p>
+  <div class="grid c2">
+    <div class="checklist">
+      <h3>🛒 Saturday — market &amp; shop (45 min)</h3>
+      <p class="sub">Farmers' market in summer, freezer + root cellar + grocery in winter.</p>
+      <div class="progress"><div></div></div>
+      <div data-list="sat"></div>
+    </div>
+    <div class="checklist">
+      <h3>🍳 Sunday — big prep (2–2½ h)</h3>
+      <p class="sub">Oven, stovetop and slow cooker all running at once.</p>
+      <div class="progress"><div></div></div>
+      <div data-list="sun"></div>
+    </div>
+    <div class="checklist">
+      <h3>👶 Sunday — baby food block (30 min)</h3>
+      <p class="sub">From ~6 months on. One cube tray ≈ a week of one food.</p>
+      <div class="progress"><div></div></div>
+      <div data-list="baby"></div>
+    </div>
+    <div class="checklist">
+      <h3>🌙 Weeknight rhythm (15–25 min/night)</h3>
+      <p class="sub">Because the heavy lifting is already done.</p>
+      <div class="progress"><div></div></div>
+      <div data-list="week"></div>
+    </div>
+  </div>
+  <p style="margin-top:14px;font-size:.85rem;color:var(--muted)">Tip: cook dinner once, eat twice — every dinner in the year plan is portioned so leftovers become the next day's lunch.</p>
+</section>
+
+<!-- ================= SOURCING ================= -->
+<section class="panel" id="sourcing">
+  <h2>Sourcing clean food in Manitoba</h2>
+  <p class="lead">Where to find grass-fed, pasture-raised and wild foods around the province. Buying direct from producers is usually cheaper per pound and you know exactly how the animal was raised.</p>
+  <div class="grid c2">
+    <div class="card src-card"><h3>🐂 Grass-fed beef &amp; bison</h3><div class="where">Direct from farm · freezer quarters/halves</div>
+      <ul><li>Search "grass-finished beef Manitoba" — many farms in the Interlake, Parkland and southwest sell by the quarter or half (budget a chest freezer)</li><li>Manitoba is bison country: lean, iron-rich, ideal for chili, burgers and baby's first meat purée</li><li>Ask: 100% grass-fed and finished? No routine antibiotics/hormones? Dry-aged?</li></ul></div>
+    <div class="card src-card"><h3>🐔 Pastured poultry &amp; eggs</h3><div class="where">Farm gate · farmers' markets</div>
+      <ul><li>Pasture-raised whole chickens freeze well — buy a season's worth in fall</li><li>Farm-gate eggs from hens on pasture: deeper yolks, great for baby's allergen introduction</li><li>Local turkey for holidays and ground-turkey weeknights</li></ul></div>
+    <div class="card src-card"><h3>🐟 Wild Manitoba fish</h3><div class="where">Lake Winnipeg &amp; northern lakes · Freshwater Fish Market, fishmongers</div>
+      <ul><li>Pickerel (walleye) — the prairie classic, mild enough for baby</li><li>Lake trout &amp; whitefish — excellent omega-3 sources</li><li>Aim for fish twice a week for mom and dad; flaked, deboned portions for baby from ~7 months</li></ul></div>
+    <div class="card src-card"><h3>🥬 Vegetables, fruit &amp; pantry</h3><div class="where">St. Norbert &amp; community farmers' markets · CSA shares · U-pick</div>
+      <ul><li>June–September: CSA veggie box + market hauls; U-pick saskatoons, strawberries, raspberries, sour cherries — freeze flat on trays</li><li>October: stock the cold room — squash, carrots, beets, cabbage, potatoes, onions</li><li>Manitoba-grown staples year-round: oats, hemp hearts, lentils, wild rice, honey (12 m+), sunflower oil</li></ul></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>💰 Budget notes</h3>
+    <ul><li>A half beef or bison (~90 kg) typically costs far less per pound than retail grass-fed cuts and covers most of the year's red meat</li><li>Whole chickens beat parts: roast once, then soup + sandwiches + bone broth</li><li>Frozen summer berries and fall root-cellar veg keep winter produce costs (and food miles) down</li><li>Bone broth from every roast = free soup base and a mineral-rich liquid for baby purées</li></ul></div>
+</section>
+
+</main>
+
+<footer>
+  <b>Our Family Table</b> · June 2026 – May 2027 · Manitoba, Canada<br><br>
+  This plan is for general meal-planning inspiration. It is not medical or dietetic advice. Follow Health Canada / Canadian Paediatric Society infant-feeding guidance and consult your physician, public-health nurse or a registered dietitian for your family's specific needs.
+</footer>
+
+<script>
+/* ============ navigation ============ */
+const nav = document.getElementById('nav');
+nav.addEventListener('click', e => {
+  const btn = e.target.closest('button'); if (!btn) return;
+  nav.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+  document.querySelectorAll('section.panel').forEach(p => p.classList.toggle('show', p.id === btn.dataset.panel));
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+/* ============ data ============ */
+const seasons = {
+  summer:{label:'Summer', color:'var(--summer)'},
+  fall:  {label:'Fall',   color:'var(--fall)'},
+  winter:{label:'Winter', color:'var(--winter)'},
+  spring:{label:'Spring', color:'var(--spring)'}
+};
+
+// Shared seasonal breakfast & lunch rotations (Mon..Sun)
+const breakfasts = {
+  summer:[
+    'Overnight Manitoba oats with saskatoons, hemp hearts & yogurt',
+    'Pasture-raised scrambled eggs, market tomatoes, sourdough toast',
+    'Greek yogurt with fresh raspberries, honey & granola',
+    'Veggie omelette (zucchini, green onion) with fruit',
+    'Oatmeal with grated apple, cinnamon & butter',
+    'Weekend: pancakes with sour-cherry compote & farm eggs',
+    'Weekend: pickerel hash with eggs (use Friday’s leftovers)'
+  ],
+  fall:[
+    'Steel-cut oats with stewed apples, walnuts & cinnamon',
+    'Eggs & leftover roast veg skillet',
+    'Pumpkin-spice overnight oats with hemp hearts',
+    'Boiled farm eggs, buttered rye toast, pear',
+    'Yogurt with frozen-summer berries & granola',
+    'Weekend: squash & cheddar frittata',
+    'Weekend: oat waffles with frozen saskatoon sauce'
+  ],
+  winter:[
+    'Hot oatmeal with frozen berries, butter & hemp hearts',
+    'Scrambled eggs with cheese, toast & stewed prunes',
+    'Leftover-roast hash with fried eggs',
+    'Yogurt, thawed berries, granola & a vitamin-D check-in ☀️',
+    'Porridge with grated frozen saskatoons & cinnamon',
+    'Weekend: bison-sausage & egg breakfast skillet',
+    'Weekend: buttermilk pancakes with sour-cherry sauce'
+  ],
+  spring:[
+    'Overnight oats with rhubarb compote & yogurt',
+    'Eggs with sautéed spring greens on toast',
+    'Smoothie: frozen berries, yogurt, oats, hemp hearts',
+    'Boiled eggs, toast soldiers & fruit',
+    'Oatmeal with the last of the frozen saskatoons',
+    'Weekend: asparagus & egg frittata (May)',
+    'Weekend: French toast with rhubarb-strawberry sauce'
+  ]
+};
+
+const lunchNote = 'Lunches = last night’s dinner, repurposed. Examples below.';
+const lunches = {
+  summer:[
+    'Leftover grilled chicken over market-greens salad',
+    'Bison-burger bowl: patty, greens, tomato, avocado',
+    'Pickerel tacos from last night’s fillets',
+    'Cold roast-beef & garden-veg wraps',
+    'Big chopped salad with boiled eggs & lentils',
+    'Picnic plate: cheese, sausage, veg sticks, fruit',
+    'Soup-and-sandwich from the week’s leftovers'
+  ],
+  fall:[
+    'Roast-chicken & root-veg bowl',
+    'Bison chili (thermos-friendly) with cornbread',
+    'Beef-and-barley soup from Sunday’s broth',
+    'Leftover meatloaf sandwiches with pickles',
+    'Lentil-squash soup, buttered rye',
+    'Harvest plate: leftovers + roasted squash + greens',
+    'Pot-roast leftovers over mashed potatoes'
+  ],
+  winter:[
+    'Slow-cooker stew from last night, in the thermos',
+    'Shepherd’s-pie leftovers',
+    'Bone-broth soup with shredded chicken & wild rice',
+    'Bison-chili bowls with cheese',
+    'Tourtière slice with beet pickles',
+    'Pickerel chowder & crackers',
+    'Roast-dinner leftovers plate'
+  ],
+  spring:[
+    'Leftover roast-chicken & wild-rice salad',
+    'Beef & spring-green wraps',
+    'Egg salad on sourdough, veg sticks',
+    'Lentil soup with yogurt swirl',
+    'Pickerel cakes with lemon mayo (from leftovers)',
+    'Big salad with steak strips (first BBQ of the year)',
+    'Frittata wedges & fruit'
+  ]
+};
+
+// Per-month: season, baby age/stage/foods, produce, 7 dinners, baby table note
+const months = [
+ {name:'June 2026', short:'Jun', season:'summer', babyAge:'5 months', babyStage:'Watching & preparing — milk only',
+  produce:['Asparagus (early)','Rhubarb','Spinach & lettuce','Radishes','Green onions','Strawberries (late June)'],
+  babyFoods:['No solids yet','Baby sits at the table to watch','Gear: blender, cube trays, spoons'],
+  dinners:[
+   'Grilled grass-fed sirloin, asparagus, baby potatoes',
+   'Pasture-raised roast chicken, rhubarb chutney, rice & spinach salad',
+   'Pan-fried pickerel, lemon butter, radish-greens salad',
+   'Bison burgers (no bun option), grilled veg, strawberry spinach salad',
+   'Lentil & spinach curry with Manitoba lentils, rice',
+   'BBQ pork chops, creamy potato salad, greens',
+   'Sunday roast beef, gravy, first garden veg — save bones for broth'],
+  babyNote:'Baby joins at the table in a supported seat — watching you eat builds interest in food.'},
+
+ {name:'July 2026', short:'Jul', season:'summer', babyAge:'6 months', babyStage:'First tastes! Iron-rich purées, 1×/day',
+  produce:['Strawberries & saskatoons','Peas & beans','Zucchini','New potatoes','Lettuce','First carrots'],
+  babyFoods:['Puréed grass-fed beef/bison','Iron-fortified oat cereal','Carrot, squash, zucchini purées','Egg & peanut introduction (thinned)'],
+  dinners:[
+   'Slow-simmered bison & veg — blend baby’s portion before seasoning',
+   'Grilled chicken thighs, buttered new potatoes, peas',
+   'Pickerel shore lunch: fried fillets, coleslaw, corn',
+   'Grass-fed beef kebabs, zucchini, rice',
+   'Egg frittata with market veg (baby gets plain egg purée)',
+   'Saskatoon-glazed pork tenderloin, green beans',
+   'Sunday roast chicken + bone broth for the week & baby purées'],
+  babyNote:'Set aside baby’s portion before adding salt. Simmer meat soft, blend with broth or breast milk.'},
+
+ {name:'August 2026', short:'Aug', season:'summer', babyAge:'7 months', babyStage:'2 meals/day — thicker mashes',
+  produce:['Sweet corn','Tomatoes','Raspberries & saskatoons','Beans & beets','Cucumbers','Early apples'],
+  babyFoods:['Mashed (not puréed) veg & meat','Flaked pickerel, deboned','Lentil mash','Mashed raspberries with oat cereal'],
+  dinners:[
+   'Grilled bison steaks, corn on the cob, tomato salad',
+   'Chicken & veg stir-fry over rice (baby: mashed plain portions)',
+   'Baked pickerel, smashed potatoes, beans',
+   'Beef tacos with garden salsa (baby: mashed beef + avocado)',
+   'Manitoba lentil dahl, cucumber raita, rice',
+   'Burgers & a giant harvest salad',
+   'Sunday: whole roast chicken, roasted beets & carrots'],
+  babyNote:'Move from smooth to lumpy. Offer water in an open cup at meals. Freeze extra harvest purées now!'},
+
+ {name:'September 2026', short:'Sep', season:'fall', babyAge:'8 months', babyStage:'Soft finger foods begin',
+  produce:['Squash & pumpkins','Apples','Carrots & parsnips','Cabbage','Potatoes & onions','Last tomatoes'],
+  babyFoods:['Steamed carrot sticks','Toast strips with thin butter','Soft pear slices','Shredded slow-cooked beef'],
+  dinners:[
+   'Slow-cooker grass-fed pot roast, carrots & potatoes',
+   'Harvest chicken & squash tray bake',
+   'Pickerel cakes, tartar sauce, slaw',
+   'Bison meatballs in tomato sauce over pasta',
+   'Cabbage-roll skillet (deconstructed cabbage rolls)',
+   'Apple-stuffed pork loin, mashed parsnips',
+   'Sunday roast turkey breast — broth + freezer stock-up day'],
+  babyNote:'Pieces should squish between your fingers. Always seated, always supervised.'},
+
+ {name:'October 2026', short:'Oct', season:'fall', babyAge:'9 months', babyStage:'3 meals/day, self-feeding more',
+  produce:['Root-cellar stock-up!','Squash','Apples & crabapples','Beets','Brussels sprouts','Frozen summer berries'],
+  babyFoods:['Mini meatballs','Soft squash cubes','Scrambled egg pieces','Beans & soft-cooked apple'],
+  dinners:[
+   'Bison chili (mild base — spice adults’ bowls at the table)',
+   'Roast chicken legs, roasted Brussels & squash',
+   'Lake trout fillets, wild rice pilaf',
+   'Beef & barley stew',
+   'Squash & lentil soup with cheese toast',
+   'Thanksgiving-style roast with all the trimmings 🍁',
+   'Sunday: shepherd’s pie with grass-fed beef'],
+  babyNote:'Baby eats a mini version of every dinner now. Keep their portion unsalted and cut small.'},
+
+ {name:'November 2026', short:'Nov', season:'winter', babyAge:'10 months', babyStage:'Confident finger-feeder',
+  produce:['Cold-room veg: squash, beets, carrots, cabbage, potatoes','Frozen berries','Stored apples'],
+  babyFoods:['Shredded pot roast','Soft veg from stews','Oat-banana pancakes','Yogurt (plain, full-fat)'],
+  dinners:[
+   'Slow-cooker beef stew with root veg',
+   'Roast chicken, mashed potatoes, glazed carrots',
+   'Pickerel chowder with bacon & corn (from frozen)',
+   'Bison meatloaf, roasted beets',
+   'Manitoba lentil & wild-rice soup, bannock',
+   'Pork & sauerkraut with potatoes',
+   'Sunday roast beef + big batch bone broth'],
+  babyNote:'Stews are perfect baby food — soft, varied, iron-rich. Just rinse or set aside before salting.'},
+
+ {name:'December 2026', short:'Dec', season:'winter', babyAge:'11 months', babyStage:'Almost at the family table',
+  produce:['Cold-room & freezer staples','Frozen saskatoons & cherries','Stored squash & roots'],
+  babyFoods:['Nearly everything the family eats, chopped','Soft cheese cubes','Holiday turkey & soft veg'],
+  dinners:[
+   'Tourtière (prairie meat pie) with beet pickles',
+   'Roast chicken, stuffing, green beans (from frozen)',
+   'Baked whitefish, lemon, rice & peas',
+   'Bison stroganoff over egg noodles',
+   'Split-pea & ham soup, rye bread',
+   'Christmas: local roast turkey, mashed potatoes, saskatoon sauce 🎄',
+   'Boxing-week leftovers remix night'],
+  babyNote:'Holiday plates work for baby too — skip the salty gravy and honey-glazed items until 12 months.'},
+
+ {name:'January 2027', short:'Jan', season:'winter', babyAge:'12 months 🎉', babyStage:'Family table! Whole milk OK, honey OK',
+  produce:['Root cellar & freezer','Sprouting trays on the windowsill','Citrus from the store for vitamin C'],
+  babyFoods:['Eats family meals, chopped small','Whole pasteurized milk in a cup','3 meals + 2 snacks'],
+  dinners:[
+   'Slow-cooker pulled bison with mashed squash',
+   'Whole roast chicken, root veg, gravy',
+   'Pickerel fillets, potato wedges, frozen peas',
+   'Grass-fed beef & bean chili with cornbread',
+   'Chicken-noodle soup from Sunday’s broth',
+   'Beef pot pie with cold-room veg',
+   'Sunday roast pork shoulder, applesauce, cabbage'],
+  babyNote:'One pot, three plates: cut baby’s small, keep salt light for the whole pot, season at the table.'},
+
+ {name:'February 2027', short:'Feb', season:'winter', babyAge:'13 months', babyStage:'Toddler appetite swings — keep offering',
+  produce:['Cold-room veg (use up beets & cabbage)','Frozen fish & berries','Manitoba grains & lentils'],
+  babyFoods:['Self-feeds with hands + spoon practice','Loves: meatballs, berries, cheese, oat pancakes'],
+  dinners:[
+   'Bison meatballs & tomato sauce on pasta',
+   'Roast chicken thighs, wild rice, frozen green beans',
+   'Lake trout, roasted potatoes, slaw',
+   'Beef barley soup, buttered bread',
+   'Breakfast-for-dinner: eggs, sausage, oat pancakes',
+   'Slow-cooker beef short ribs, mash',
+   'Sunday: roast chicken + broth (the winter rhythm holds)'],
+  babyNote:'Appetite dips are normal at this age. Keep portions small and let toddler ask for more.'},
+
+ {name:'March 2027', short:'Mar', season:'winter', babyAge:'14 months', babyStage:'Eats what you eat — cut safely',
+  produce:['Last of the root cellar','Freezer fish & beef','Start seedlings for the garden 🌱'],
+  babyFoods:['Family meals, halved grapes/cherries','Practising fork skills','Open cup mastered'],
+  dinners:[
+   'Maple-glazed pork tenderloin (syrup season!), roasted carrots',
+   'Bison shepherd’s pie',
+   'Pickerel fish-fry Friday, oven fries, peas',
+   'Chicken & dumpling stew',
+   'Lentil bolognese on spaghetti',
+   'Grass-fed striploin steaks, baked potatoes (a March treat)',
+   'Sunday roast chicken, the last stored squash'],
+  babyNote:'Toddler-proof the plate: no whole nuts, halve round foods, watch hot dishes within reach.'},
+
+ {name:'April 2027', short:'Apr', season:'spring', babyAge:'15 months', babyStage:'Adventurous (some days) toddler',
+  produce:['First greenhouse greens','Stored potatoes & onions','Freezer berries running the last mile'],
+  babyFoods:['Everything, chopped','New textures: shredded slaw softened, quinoa','Dipping is fun — yogurt dips'],
+  dinners:[
+   'Roast chicken, smashed potatoes, first fresh greens',
+   'Bison tacos with slaw',
+   'Whitefish en papillote with lemon & herbs',
+   'Beef stir-fry with storage carrots & frozen peas',
+   'Spring lentil soup with yogurt swirl',
+   'Grilled pork chops (BBQ is back!), potato salad',
+   'Sunday roast beef, Yorkshire puddings'],
+  babyNote:'Let toddler dip, smear and explore. Mess is part of learning to eat well.'},
+
+ {name:'May 2027', short:'May', season:'spring', babyAge:'16 months', babyStage:'Full family eater — one year of solids!',
+  produce:['Asparagus','Rhubarb','Spinach & radishes','Chives & green onions','Plant the garden for round two 🌱'],
+  babyFoods:['Family meals, full stop','Helping: washing veg, stirring (supervised)','Favourite foods chart on the fridge'],
+  dinners:[
+   'First-grill night: grass-fed burgers, asparagus, salad',
+   'Roast chicken with rhubarb-honey glaze',
+   'Pickerel opener! Fresh-caught fry with spring greens',
+   'Bison kebabs, rice, radish tzatziki',
+   'Spinach & egg frittata, new greens salad',
+   'Steak night with chimichurri from windowsill herbs',
+   'Sunday celebration roast — one full year around the family table 🎉'],
+  babyNote:'A year ago they were watching from the high chair. Now they’re eating saskatoons by the fistful.'}
+];
+
+const dayNames = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+/* ============ render month bar ============ */
+const monthBar = document.getElementById('monthBar');
+months.forEach((m,i)=>{
+  const b=document.createElement('button');
+  b.innerHTML=`<span class="season-dot" style="background:${seasons[m.season].color}"></span>${m.short}<small>${m.babyAge.replace(' 🎉','')}</small>`;
+  b.addEventListener('click',()=>selectMonth(i));
+  monthBar.appendChild(b);
+});
+
+function selectMonth(i){
+  monthBar.querySelectorAll('button').forEach((b,j)=>b.classList.toggle('sel',j===i));
+  const m=months[i], s=seasons[m.season];
+  const view=document.getElementById('monthView');
+  view.innerHTML=`
+    <div class="month-head">
+      <h3>${m.name}</h3>
+      <span class="pill" style="background:${s.color}">${s.label} in Manitoba</span>
+      <span class="pill" style="background:var(--terracotta)">👶 ${m.babyAge} — ${m.babyStage}</span>
+    </div>
+    <div class="info-strip">
+      <div class="card"><h4>🥕 In season / in store</h4><div class="chiplist">${m.produce.map(p=>`<span class="chip">${p}</span>`).join('')}</div></div>
+      <div class="card"><h4>👶 Baby foods this month</h4><div class="chiplist">${m.babyFoods.map(p=>`<span class="chip baby">${p}</span>`).join('')}</div></div>
+    </div>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:10px">📋 Weekly rotation — repeat each week of the month, swapping veg with what the market or cold room offers. ${lunchNote}</p>
+    <div class="day-accordion">${dayNames.map((d,di)=>`
+      <div class="day${di===0?' open':''}">
+        <button class="day-head" aria-expanded="${di===0}">
+          <span class="dname">${d}</span>
+          <span class="preview">${m.dinners[di]}</span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="day-body">
+          <div class="meal-row"><span class="mlabel">Breakfast</span><span>${breakfasts[m.season][di]}</span></div>
+          <div class="meal-row"><span class="mlabel">Lunch</span><span>${lunches[m.season][di]}</span></div>
+          <div class="meal-row"><span class="mlabel">Dinner</span><span>${m.dinners[di]}</span></div>
+          <div class="meal-row babyrow"><span class="mlabel">👶 Baby</span><span>${m.babyNote}</span></div>
+        </div>
+      </div>`).join('')}
+    </div>`;
+  view.querySelectorAll('.day-head').forEach(h=>h.addEventListener('click',()=>{
+    const day=h.parentElement, open=day.classList.toggle('open');
+    h.setAttribute('aria-expanded',open);
+  }));
+}
+selectMonth(0);
+
+/* ============ checklists ============ */
+const lists={
+ sat:[
+  'Check the freezer & cold room first — shop only the gaps',
+  'Proteins for the week: 1 roast/slow-cook cut, 1 whole chicken, fish ×2, ground bison/beef, eggs ×2 dozen',
+  'Veg & fruit: what’s seasonal + salad basics + baby’s soft fruits',
+  'Staples check: oats, wild rice, lentils, butter, olive oil, yogurt',
+  'Summer only: farmers’ market / CSA pickup / U-pick berries'],
+ sun:[
+  'Roast the whole chicken (dinner tonight + lunches)',
+  'Start bone broth in the slow cooker (overnight)',
+  'Batch-cook one big pot: chili, stew or soup → fridge ×2 days + freezer ×2 portions',
+  'Cook a pot of wild rice or steel-cut oats for the week',
+  'Wash & chop veg: snack sticks, salad base, roast-ready trays',
+  'Boil 6 eggs for grab-and-go',
+  'Mix one jar of vinaigrette & one yogurt dip',
+  'Label everything with painter’s tape + marker'],
+ baby:[
+  'Simmer 200 g grass-fed beef or bison until very soft; blend with broth → cube tray',
+  'Steam & purée/mash 2 vegetables (whatever’s seasonal) → cube trays',
+  'Mash 1 fruit (banana, pear, berries) → small jars for 2 days',
+  'Portion plain yogurt & oat cereal for the week (6 m+)',
+  'Thaw tomorrow’s cubes in the fridge overnight',
+  'Restock the allergen rotation: egg, peanut (thinned), fish, wheat, dairy'],
+ week:[
+  'Mon — eat the batch-cook pot (zero cooking)',
+  'Tue — fish night: thaw in the morning, pan-fry in 15 min',
+  'Wed — slow-cooker day: load it at breakfast',
+  'Thu — leftovers remix or breakfast-for-dinner',
+  'Fri — fun night: tacos, burgers or shore-lunch fry',
+  'Sat — market day + simple grill or tray bake',
+  'Sun — roast day & next week’s prep']
+};
+
+document.querySelectorAll('[data-list]').forEach(holder=>{
+  const key=holder.dataset.list;
+  const saved=JSON.parse(localStorage.getItem('fmtchecks-'+key)||'[]');
+  lists[key].forEach((txt,i)=>{
+    const label=document.createElement('label');
+    label.className='check-item';
+    const cb=document.createElement('input');
+    cb.type='checkbox'; cb.checked=saved.includes(i);
+    if(cb.checked) label.classList.add('done');
+    const span=document.createElement('span'); span.textContent=txt;
+    cb.addEventListener('change',()=>{
+      label.classList.toggle('done',cb.checked);
+      const now=[...holder.querySelectorAll('input')].map((c,j)=>c.checked?j:-1).filter(j=>j>=0);
+      localStorage.setItem('fmtchecks-'+key,JSON.stringify(now));
+      updateProgress(holder);
+    });
+    label.append(cb,span); holder.appendChild(label);
+  });
+  updateProgress(holder);
+});
+function updateProgress(holder){
+  const boxes=[...holder.querySelectorAll('input')];
+  const pct=boxes.length?Math.round(100*boxes.filter(b=>b.checked).length/boxes.length):0;
+  holder.parentElement.querySelector('.progress div').style.width=pct+'%';
+}
+</script>
+</body>
+</html>
