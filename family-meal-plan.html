@@ -3,638 +3,1165 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Family Table — 1-Year Nutrition &amp; Meal Prep Plan · Manitoba</title>
+<title>Kitchen Quest — Prairie Table · A Family Cooking Game · Manitoba</title>
 <style>
   :root{
-    --green:#3e6b48; --green-dark:#2c4f34; --green-light:#e8f1ea;
-    --cream:#faf6ef; --brown:#7a5c3e; --terracotta:#c4663d;
-    --gold:#d9a441; --ink:#2b2b28; --muted:#6b6b62;
-    --winter:#5b7fa6; --spring:#6fa05c; --summer:#d98e2b; --fall:#b35c33;
+    --wood:#3a2d20; --wood-2:#4d3c2a; --gold:#e3b341; --gold-dark:#b8860b;
+    --parchment:#f6efe0; --card:#fffdf6; --line:#d8cdb4;
+    --ink:#2e2618; --muted:#857a63;
+    --green:#3e6b48; --green-dark:#2c4f34; --green-light:#e7f0e8;
+    --terracotta:#c4663d; --terracotta-light:#fdeede;
+    --red:#b04a3a;
+    --common:#8d927f; --uncommon:#5e9c54; --rare:#4a7fc1; --legend:#d9a02b;
     --radius:14px;
-    --shadow:0 2px 10px rgba(43,43,40,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:Georgia,'Times New Roman',serif;background:var(--cream);color:var(--ink);line-height:1.55}
-  h1,h2,h3,h4,.sans{font-family:'Segoe UI',Helvetica,Arial,sans-serif}
+  body{font-family:Georgia,'Times New Roman',serif;background:var(--parchment);color:var(--ink);line-height:1.5;
+    background-image:radial-gradient(rgba(58,45,32,.04) 1px,transparent 1px);background-size:22px 22px}
+  h1,h2,h3,h4,button,.sans,.pill,.chip,.tag{font-family:'Segoe UI',Helvetica,Arial,sans-serif}
 
-  /* ---------- header ---------- */
-  header{background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;padding:38px 20px 30px;text-align:center}
-  header h1{font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:.5px}
-  header p.tag{margin-top:8px;font-style:italic;opacity:.9}
-  .badges{margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-  .badge{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);padding:5px 14px;border-radius:999px;font-size:.8rem;font-family:'Segoe UI',sans-serif}
+  /* ============ HUD header ============ */
+  header{background:linear-gradient(180deg,var(--wood),var(--wood-2));color:#f3e9d2;padding:20px 16px 16px;
+    border-bottom:4px solid var(--gold)}
+  .hud{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+  .hud-title h1{font-size:clamp(1.25rem,3.5vw,1.8rem);letter-spacing:.04em;text-transform:uppercase}
+  .hud-title h1 span{color:var(--gold)}
+  .hud-title p{font-size:.8rem;opacity:.85;font-style:italic;font-family:Georgia,serif}
+  .hud-stats{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+  .level-badge{display:flex;gap:10px;align-items:center}
+  .level-badge .lvl-icon{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe9ae,var(--gold) 60%,var(--gold-dark));
+    display:flex;align-items:center;justify-content:center;font-size:1.5rem;border:3px solid #fff3;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+  .level-badge .lvl-text{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+  .level-badge .lvl-name{font-size:1rem;font-weight:700;color:var(--gold)}
+  .xp-wrap{min-width:180px}
+  .xp-bar{height:14px;background:#0006;border-radius:999px;overflow:hidden;border:1px solid #fff3;margin-top:4px}
+  .xp-bar div{height:100%;background:linear-gradient(90deg,var(--gold-dark),var(--gold),#ffe9ae);transition:width .5s ease;border-radius:999px}
+  .xp-label{font-size:.7rem;letter-spacing:.05em;opacity:.85}
+  .hud-mini{text-align:center;font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;opacity:.85}
+  .hud-mini b{display:block;font-size:1.25rem;color:var(--gold);font-family:Georgia,serif}
 
-  /* ---------- nav ---------- */
-  nav{position:sticky;top:0;z-index:50;background:#fff;box-shadow:var(--shadow);display:flex;justify-content:center;flex-wrap:wrap;gap:4px;padding:8px}
-  nav button{font-family:'Segoe UI',sans-serif;font-size:.88rem;border:none;background:none;padding:9px 16px;border-radius:999px;cursor:pointer;color:var(--muted);transition:.2s}
+  /* ============ nav ============ */
+  nav{position:sticky;top:0;z-index:60;background:var(--card);box-shadow:0 2px 10px rgba(46,38,24,.12);
+    display:flex;justify-content:center;flex-wrap:wrap;gap:4px;padding:8px}
+  nav button{font-size:.88rem;border:2px solid transparent;background:none;padding:8px 16px;border-radius:999px;
+    cursor:pointer;color:var(--muted);transition:.15s;font-weight:600}
   nav button:hover{background:var(--green-light);color:var(--green-dark)}
-  nav button.active{background:var(--green);color:#fff}
+  nav button.active{background:var(--green);color:#fff;border-color:var(--green-dark)}
 
-  main{max-width:1080px;margin:0 auto;padding:28px 16px 60px}
-  section.panel{display:none;animation:fade .35s ease}
+  main{max-width:1100px;margin:0 auto;padding:26px 16px 70px}
+  section.panel{display:none;animation:fade .3s ease}
   section.panel.show{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .panel > h2{color:var(--green-dark);font-size:1.45rem;margin-bottom:4px}
+  .panel > p.lead{color:var(--muted);margin-bottom:20px;max-width:780px;font-size:.95rem}
 
-  .panel > h2{color:var(--green-dark);font-size:1.5rem;margin-bottom:6px}
-  .panel > p.lead{color:var(--muted);margin-bottom:22px;max-width:760px}
+  /* ============ buttons ============ */
+  .btn{display:inline-flex;align-items:center;gap:6px;justify-content:center;border:none;cursor:pointer;
+    font-size:.85rem;font-weight:700;padding:8px 14px;border-radius:10px;transition:.12s;
+    box-shadow:0 3px 0 rgba(0,0,0,.25);color:#fff;background:var(--green)}
+  .btn:hover{filter:brightness(1.08)}
+  .btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+  .btn.gold{background:linear-gradient(180deg,var(--gold),var(--gold-dark));color:#3a2d20}
+  .btn.ghost{background:var(--card);color:var(--green-dark);border:2px solid var(--line);box-shadow:0 3px 0 var(--line)}
+  .btn.small{font-size:.74rem;padding:5px 10px;border-radius:8px}
+  .btn.danger{background:var(--red)}
+  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
 
-  /* ---------- cards ---------- */
-  .grid{display:grid;gap:16px}
-  .grid.c3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-  .grid.c2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-  .card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
-  .card h3{color:var(--green-dark);margin-bottom:8px;font-size:1.05rem}
-  .card .emoji{font-size:1.6rem;display:block;margin-bottom:8px}
-  .card ul{padding-left:18px;font-size:.93rem}
+  /* ============ quest board ============ */
+  .howto{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-bottom:18px}
+  .howto .step{background:var(--card);border:2px dashed var(--gold);border-radius:var(--radius);padding:12px 14px;
+    display:flex;gap:10px;align-items:center;font-size:.85rem;font-family:'Segoe UI',sans-serif}
+  .howto .num{width:30px;height:30px;border-radius:50%;background:linear-gradient(160deg,#ffe9ae,var(--gold));
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#3a2d20;flex-shrink:0;border:2px solid var(--gold-dark)}
+  .board-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .season-tag{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.8rem;color:var(--muted)}
+  .season-tag b{color:var(--green-dark)}
+  .board{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .day-card{background:var(--card);border:2px solid var(--line);border-radius:var(--radius);padding:14px;
+    display:flex;flex-direction:column;gap:8px;min-height:188px;position:relative;transition:.15s}
+  .day-card.today{border-color:var(--gold);box-shadow:0 0 0 3px #e3b34133}
+  .day-card .dow{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;
+    display:flex;justify-content:space-between;align-items:center}
+  .day-card .dow .today-pip{color:var(--gold-dark);font-size:.68rem}
+  .day-card .slot{flex:1;display:flex;flex-direction:column;gap:6px;justify-content:center;text-align:center}
+  .slot .remoji{font-size:2rem;line-height:1}
+  .slot .rname{font-weight:700;font-size:.92rem;font-family:'Segoe UI',sans-serif;cursor:pointer}
+  .slot .rname:hover{color:var(--green-dark);text-decoration:underline}
+  .slot .empty{color:var(--muted);font-size:.84rem;font-style:italic}
+  .status-chip{font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:999px;align-self:center;font-family:'Segoe UI',sans-serif}
+  .status-chip.ready{background:var(--green-light);color:var(--green-dark)}
+  .status-chip.close{background:#fdf3df;color:var(--gold-dark)}
+  .status-chip.far{background:#f7e5e0;color:var(--red)}
+  .day-actions{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+  .cooked-stamp{position:absolute;inset:0;background:#2c4f34e0;border-radius:11px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;color:#fff;gap:4px;animation:stamp .35s ease}
+  .cooked-stamp .big{font-size:2.2rem}
+  .cooked-stamp .xp{color:var(--gold);font-weight:800;font-family:'Segoe UI',sans-serif}
+  .cooked-stamp button{margin-top:6px}
+  @keyframes stamp{from{transform:scale(1.25);opacity:0}to{transform:scale(1);opacity:1}}
+
+  /* ============ shopping list ============ */
+  .shop-card{margin-top:22px;background:var(--card);border:2px solid var(--line);border-radius:var(--radius);padding:18px}
+  .shop-card h3{color:var(--green-dark);display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap}
+  .shop-groups{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:12px}
+  .shop-groups h4{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px}
+  .shop-item{font-size:.88rem;padding:3px 0;display:flex;gap:6px;align-items:baseline}
+  .shop-item small{color:var(--muted);font-size:.72rem}
+  .all-set{color:var(--green-dark);font-size:.92rem;padding:8px 0}
+
+  /* ============ pantry ============ */
+  .pantry-top{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .pantry-count{font-size:.9rem;color:var(--muted)}
+  .pantry-count b{color:var(--green-dark);font-size:1.2rem}
+  .pantry-group{margin-bottom:20px}
+  .pantry-group h3{color:var(--green-dark);font-size:1rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .inv-grid{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .inv-item{display:flex;align-items:center;gap:8px;background:var(--card);border:2px solid var(--line);border-radius:10px;
+    padding:8px 10px;cursor:pointer;font-size:.82rem;font-family:'Segoe UI',sans-serif;transition:.12s;user-select:none}
+  .inv-item:hover{border-color:var(--green)}
+  .inv-item.stocked{background:var(--green-light);border-color:var(--green);box-shadow:inset 0 0 0 1px var(--green)}
+  .inv-item .iemoji{font-size:1.2rem}
+  .inv-item .tick{margin-left:auto;color:var(--green-dark);font-weight:800;opacity:0;transition:.12s}
+  .inv-item.stocked .tick{opacity:1}
+
+  /* ============ recipe cards ============ */
+  .filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+  .filter-bar input{flex:1;min-width:160px;padding:8px 14px;border:2px solid var(--line);border-radius:999px;
+    font-size:.88rem;background:var(--card);font-family:'Segoe UI',sans-serif;outline:none}
+  .filter-bar input:focus{border-color:var(--green)}
+  .fchip{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:.76rem;
+    font-weight:700;cursor:pointer;color:var(--muted);transition:.12s}
+  .fchip.on{background:var(--green);border-color:var(--green-dark);color:#fff}
+  .recipe-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  .rcard{background:var(--card);border:2px solid var(--line);border-radius:var(--radius);padding:14px;cursor:pointer;
+    transition:.15s;position:relative;display:flex;flex-direction:column;gap:6px}
+  .rcard:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(46,38,24,.15)}
+  .rcard.r-common{border-top:5px solid var(--common)}
+  .rcard.r-uncommon{border-top:5px solid var(--uncommon)}
+  .rcard.r-rare{border-top:5px solid var(--rare)}
+  .rcard.r-legendary{border-top:5px solid var(--legend);background:linear-gradient(160deg,#fffdf6,#fdf6df)}
+  .rcard .top{display:flex;gap:10px;align-items:flex-start}
+  .rcard .remoji{font-size:1.9rem}
+  .rcard h4{font-size:.98rem;line-height:1.25}
+  .rcard .meta{display:flex;gap:6px;flex-wrap:wrap;font-size:.68rem;color:var(--muted);font-family:'Segoe UI',sans-serif}
+  .rarity-tag{font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;padding:2px 8px;border-radius:999px;color:#fff}
+  .rt-common{background:var(--common)} .rt-uncommon{background:var(--uncommon)}
+  .rt-rare{background:var(--rare)}
+  .rt-legendary{background:linear-gradient(90deg,var(--legend),#f0c75e);color:#3a2d20;animation:shimmer 2.4s linear infinite;background-size:200% 100%}
+  @keyframes shimmer{to{background-position:-200% 0}}
+  .match-line{margin-top:auto;font-size:.76rem;font-family:'Segoe UI',sans-serif;font-weight:700}
+  .match-line.ok{color:var(--green-dark)} .match-line.warn{color:var(--gold-dark)} .match-line.bad{color:var(--red)}
+  .seasonal-star{position:absolute;top:8px;right:10px;font-size:.85rem}
+
+  /* ============ modal ============ */
+  .overlay{position:fixed;inset:0;background:#1d160bcc;z-index:100;display:none;align-items:flex-start;justify-content:center;
+    padding:30px 14px;overflow-y:auto}
+  .overlay.show{display:flex}
+  .modal{background:var(--card);border-radius:18px;border:3px solid var(--gold);max-width:680px;width:100%;
+    padding:24px;position:relative;animation:pop .25s ease;margin:auto 0}
+  @keyframes pop{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal .close-x{position:absolute;top:10px;right:12px;border:none;background:none;font-size:1.5rem;cursor:pointer;color:var(--muted)}
+  .modal .close-x:hover{color:var(--red)}
+  .rhead{display:flex;gap:14px;align-items:center;margin-bottom:6px}
+  .rhead .remoji{font-size:2.6rem}
+  .rhead h3{font-size:1.3rem;color:var(--green-dark)}
+  .rmeta{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px;font-size:.74rem;color:var(--muted);font-family:'Segoe UI',sans-serif;align-items:center}
+  .ing-list{display:grid;gap:4px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));margin-bottom:6px}
+  .ing{display:flex;gap:7px;align-items:center;font-size:.86rem;font-family:'Segoe UI',sans-serif;
+    padding:5px 9px;border-radius:8px;cursor:pointer;border:1.5px dashed transparent}
+  .ing:hover{border-color:var(--line);background:#faf5e8}
+  .ing .mark{font-weight:800}
+  .ing.have .mark{color:var(--green-dark)} .ing.need{color:var(--red)} .ing.need .mark{color:var(--red)}
+  .ing.opt{opacity:.75;font-style:italic}
+  .ing-hint{font-size:.72rem;color:var(--muted);margin-bottom:12px;font-family:'Segoe UI',sans-serif}
+  .steps{counter-reset:step;margin-bottom:14px}
+  .steps li{list-style:none;counter-increment:step;display:flex;gap:12px;padding:8px 0;border-top:1px dashed var(--line);font-size:.92rem}
+  .steps li::before{content:counter(step);flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--green);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;font-family:'Segoe UI',sans-serif}
+  .babybox{background:var(--terracotta-light);border-left:4px solid var(--terracotta);border-radius:8px;padding:10px 14px;
+    font-size:.86rem;margin-bottom:14px}
+  .babybox b{color:var(--terracotta)}
+  .modal-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .picker-list{display:flex;flex-direction:column;gap:8px;max-height:50vh;overflow-y:auto;padding:2px}
+  .pick-row{display:flex;gap:10px;align-items:center;background:#fbf7ec;border:2px solid var(--line);border-radius:10px;
+    padding:10px 12px;cursor:pointer;transition:.12s}
+  .pick-row:hover{border-color:var(--green)}
+  .pick-row .remoji{font-size:1.5rem}
+  .pick-row .pinfo{flex:1;min-width:0}
+  .pick-row .pname{font-weight:700;font-size:.9rem;font-family:'Segoe UI',sans-serif}
+  .pick-row .pmatch{font-size:.72rem;font-family:'Segoe UI',sans-serif}
+  .pick-row .pmatch.ok{color:var(--green-dark)} .pick-row .pmatch.warn{color:var(--gold-dark)} .pick-row .pmatch.bad{color:var(--red)}
+
+  /* ============ trophies ============ */
+  .stat-strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin-bottom:22px}
+  .stat-box{background:var(--card);border:2px solid var(--line);border-radius:var(--radius);padding:14px;text-align:center}
+  .stat-box b{display:block;font-size:1.7rem;color:var(--green-dark);font-family:Georgia,serif}
+  .stat-box span{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-family:'Segoe UI',sans-serif}
+  .ach-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+  .ach{background:var(--card);border:2px solid var(--line);border-radius:var(--radius);padding:14px;display:flex;gap:12px;align-items:center}
+  .ach .aemoji{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:1.5rem;background:linear-gradient(160deg,#ffe9ae,var(--gold));border:2px solid var(--gold-dark);flex-shrink:0}
+  .ach h4{font-size:.9rem;color:var(--green-dark)}
+  .ach p{font-size:.76rem;color:var(--muted);font-family:'Segoe UI',sans-serif}
+  .ach.locked{opacity:.55;filter:grayscale(.9)}
+  .ach.locked .aemoji{background:#e7e2d4;border-color:var(--line)}
+
+  /* ============ family tab ============ */
+  .grid{display:grid;gap:14px}
+  .grid.c2{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+  .card{background:var(--card);border:2px solid var(--line);border-radius:var(--radius);padding:18px}
+  .card h3{color:var(--green-dark);font-size:1rem;margin-bottom:8px}
+  .card ul{padding-left:18px;font-size:.9rem}
   .card li{margin:4px 0}
-
-  /* ---------- plate chart ---------- */
-  .plate-wrap{display:flex;gap:28px;align-items:center;flex-wrap:wrap;justify-content:center;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-top:20px}
-  .plate{width:200px;height:200px;border-radius:50%;background:conic-gradient(var(--green) 0 50%,var(--terracotta) 50% 75%,var(--gold) 75% 100%);border:8px solid #f1ece1;flex-shrink:0}
-  .legend{font-family:'Segoe UI',sans-serif;font-size:.9rem}
-  .legend div{display:flex;align-items:center;gap:10px;margin:8px 0}
-  .swatch{width:16px;height:16px;border-radius:4px;flex-shrink:0}
-
-  /* ---------- month selector ---------- */
-  .month-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:6px;margin-bottom:20px}
-  .month-bar button{font-family:'Segoe UI',sans-serif;border:2px solid transparent;border-radius:10px;padding:8px 4px;cursor:pointer;background:#fff;box-shadow:var(--shadow);font-size:.8rem;line-height:1.3;transition:.15s}
-  .month-bar button small{display:block;font-size:.66rem;color:var(--muted)}
-  .month-bar button.sel{border-color:var(--green);background:var(--green-light)}
-  .season-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
-
-  .month-head{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px}
-  .month-head h3{font-size:1.4rem;color:var(--green-dark)}
-  .pill{font-family:'Segoe UI',sans-serif;font-size:.75rem;color:#fff;padding:4px 12px;border-radius:999px}
-
-  .info-strip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-bottom:18px}
-  .info-strip .card{padding:14px 16px}
-  .info-strip h4{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px}
-  .chiplist{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{background:var(--green-light);color:var(--green-dark);font-family:'Segoe UI',sans-serif;font-size:.78rem;padding:4px 10px;border-radius:999px}
-  .chip.baby{background:#fdeede;color:var(--terracotta)}
-
-  /* ---------- week table ---------- */
-  .day-accordion{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-  .day{border-bottom:1px solid #efece4}
-  .day:last-child{border-bottom:none}
-  .day-head{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:none;border:none;cursor:pointer;font-family:'Segoe UI',sans-serif;font-size:.95rem;text-align:left}
-  .day-head:hover{background:var(--green-light)}
-  .day-head .dname{font-weight:600;color:var(--green-dark);width:110px;flex-shrink:0}
-  .day-head .preview{color:var(--muted);font-size:.85rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 10px}
-  .day-head .arrow{transition:.2s;color:var(--green)}
-  .day.open .arrow{transform:rotate(90deg)}
-  .day-body{display:none;padding:4px 18px 16px;background:#fcfaf5}
-  .day.open .day-body{display:block}
-  .meal-row{display:grid;grid-template-columns:110px 1fr;gap:8px;padding:7px 0;border-top:1px dashed #e6e1d4;font-size:.92rem}
-  .meal-row:first-child{border-top:none}
-  .meal-row .mlabel{font-family:'Segoe UI',sans-serif;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--brown);padding-top:2px}
-  .meal-row.babyrow .mlabel{color:var(--terracotta)}
-  .meal-row.babyrow{background:#fdf3ea;margin:4px -10px 0;padding:8px 10px;border-radius:8px;border-top:none}
-
-  /* ---------- baby timeline ---------- */
-  .timeline{position:relative;margin:10px 0 0 14px;padding-left:26px;border-left:3px solid var(--green-light)}
-  .tl-item{position:relative;padding:0 0 26px}
-  .tl-item::before{content:"";position:absolute;left:-37px;top:4px;width:17px;height:17px;border-radius:50%;background:var(--terracotta);border:4px solid var(--cream)}
-  .tl-item h4{color:var(--green-dark);font-size:1rem}
-  .tl-item .age{font-family:'Segoe UI',sans-serif;font-size:.74rem;color:#fff;background:var(--terracotta);padding:2px 10px;border-radius:999px;display:inline-block;margin-bottom:6px}
-  .tl-item p, .tl-item ul{font-size:.92rem;color:#444}
-  .tl-item ul{padding-left:18px;margin-top:4px}
-  .alert{background:#fdf3ea;border-left:4px solid var(--terracotta);border-radius:8px;padding:14px 16px;font-size:.9rem;margin-bottom:20px}
+  .alert{background:var(--terracotta-light);border-left:4px solid var(--terracotta);border-radius:8px;padding:13px 16px;font-size:.88rem;margin-bottom:18px}
   .alert b{color:var(--terracotta)}
+  .timeline{position:relative;margin:8px 0 24px 12px;padding-left:24px;border-left:3px solid var(--green-light)}
+  .tl-item{position:relative;padding:0 0 20px}
+  .tl-item::before{content:"";position:absolute;left:-34px;top:4px;width:15px;height:15px;border-radius:50%;
+    background:var(--terracotta);border:4px solid var(--parchment)}
+  .tl-item h4{color:var(--green-dark);font-size:.95rem}
+  .tl-item.now h4::after{content:" ← you are here";color:var(--gold-dark);font-size:.74rem}
+  .tl-item .age{font-size:.68rem;color:#fff;background:var(--terracotta);padding:2px 9px;border-radius:999px;
+    display:inline-block;margin-bottom:4px;font-family:'Segoe UI',sans-serif;font-weight:700}
+  .tl-item p{font-size:.86rem;color:#4a4334}
 
-  /* ---------- checklist ---------- */
-  .checklist{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
-  .checklist h3{color:var(--green-dark);margin-bottom:4px}
-  .checklist p.sub{font-size:.85rem;color:var(--muted);margin-bottom:12px}
-  .check-item{display:flex;gap:10px;align-items:flex-start;padding:8px 6px;border-radius:8px;cursor:pointer;font-size:.93rem}
-  .check-item:hover{background:var(--green-light)}
-  .check-item input{margin-top:4px;accent-color:var(--green);width:16px;height:16px;flex-shrink:0;cursor:pointer}
-  .check-item.done span{text-decoration:line-through;color:#9a9a8e}
-  .progress{height:10px;background:#eee8da;border-radius:999px;margin:8px 0 16px;overflow:hidden}
-  .progress div{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));width:0;transition:.3s;border-radius:999px}
+  /* ============ toast & confetti ============ */
+  #toasts{position:fixed;bottom:18px;right:18px;z-index:200;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+  .toast{background:var(--wood);color:#f3e9d2;border:2px solid var(--gold);border-radius:12px;padding:10px 16px;
+    font-size:.86rem;font-family:'Segoe UI',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.3);animation:toastin .3s ease;max-width:320px}
+  .toast b{color:var(--gold)}
+  @keyframes toastin{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+  .confetti{position:fixed;top:-12px;z-index:300;font-size:1.1rem;pointer-events:none;animation:cfall linear forwards}
+  @keyframes cfall{to{transform:translateY(105vh) rotate(720deg);opacity:.6}}
 
-  /* ---------- sourcing ---------- */
-  .src-card h3{display:flex;align-items:center;gap:8px}
-  .src-card .where{font-family:'Segoe UI',sans-serif;font-size:.78rem;color:var(--muted);margin-bottom:8px}
-
-  footer{background:var(--green-dark);color:#dfe9e1;text-align:center;padding:26px 18px;font-size:.82rem;font-family:'Segoe UI',sans-serif}
-  footer b{color:#fff}
-  @media(max-width:600px){
-    .day-head .preview{display:none}
-    .meal-row{grid-template-columns:1fr}
+  footer{background:var(--wood);color:#cfc4a8;text-align:center;padding:24px 16px;font-size:.78rem;font-family:'Segoe UI',sans-serif;border-top:4px solid var(--gold)}
+  footer b{color:#f3e9d2}
+  @media(max-width:640px){
+    .hud{justify-content:center;text-align:center}
+    .board{grid-template-columns:1fr 1fr}
+    .modal{padding:18px}
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>🌾 Our Family Table</h1>
-  <p class="tag">A one-year nutrition &amp; meal-prep plan for Mom, Dad &amp; Baby — rooted in Manitoba, Canada</p>
-  <div class="badges">
-    <span class="badge">🥩 Grass-fed &amp; pasture-raised</span>
-    <span class="badge">🌱 Clean, whole-food sources</span>
-    <span class="badge">🍁 Manitoba seasonal &amp; local</span>
-    <span class="badge">👶 Baby-solids journey: 5 → 16 months</span>
+  <div class="hud">
+    <div class="hud-title">
+      <h1>🌾 Kitchen <span>Quest</span></h1>
+      <p>Prairie Table — a family cooking game · Manitoba, Canada</p>
+    </div>
+    <div class="hud-stats">
+      <div class="level-badge">
+        <div class="lvl-icon" id="hudLvlIcon">🔪</div>
+        <div>
+          <div class="lvl-text">Chef Level <span id="hudLvlNum">1</span></div>
+          <div class="lvl-name" id="hudLvlName">Prep Cook</div>
+          <div class="xp-wrap">
+            <div class="xp-bar"><div id="hudXpBar"></div></div>
+            <div class="xp-label" id="hudXpLabel">0 XP</div>
+          </div>
+        </div>
+      </div>
+      <div class="hud-mini"><b id="hudCooked">0</b>dishes cooked</div>
+      <div class="hud-mini"><b id="hudBadges">0</b>trophies</div>
+      <div class="hud-mini"><b id="hudBaby">👶</b><span id="hudBabyAge">baby</span></div>
+    </div>
   </div>
 </header>
 
 <nav id="nav">
-  <button data-panel="overview" class="active">Overview</button>
-  <button data-panel="yearplan">12-Month Plan</button>
-  <button data-panel="baby">Baby's Solids Journey</button>
-  <button data-panel="prep">Weekly Prep Routine</button>
-  <button data-panel="sourcing">Manitoba Sourcing</button>
+  <button data-panel="kitchen" class="active">🍳 Kitchen</button>
+  <button data-panel="pantry">📦 Pantry</button>
+  <button data-panel="book">📖 Recipe Book</button>
+  <button data-panel="trophies">🏆 Trophies</button>
+  <button data-panel="family">👶 Family Guide</button>
 </nav>
 
 <main>
 
-<!-- ================= OVERVIEW ================= -->
-<section class="panel show" id="overview">
-  <h2>How this plan works</h2>
-  <p class="lead">A simple, repeatable rhythm: one big prep on Sunday, fresh dinners that double as next-day lunches, and baby foods made from the same clean ingredients the parents eat — no separate "baby aisle" needed. The plan runs <b>June 2026 → May 2027</b>, following Manitoba's seasons and your baby's growth from 5 months to about 16 months.</p>
-
-  <div class="grid c3">
-    <div class="card"><span class="emoji">🥩</span><h3>Clean proteins first</h3>
-      <ul><li>Grass-fed &amp; grass-finished Manitoba beef and bison</li><li>Pasture-raised chicken, turkey &amp; eggs</li><li>Wild-caught Manitoba pickerel (walleye), lake trout &amp; whitefish</li><li>Pasture-raised pork in moderation</li></ul></div>
-    <div class="card"><span class="emoji">🥕</span><h3>Whole, natural foods</h3>
-      <ul><li>Seasonal Manitoba vegetables &amp; prairie fruit (saskatoons, raspberries, sour cherries)</li><li>Root-cellar staples for winter: squash, carrots, beets, potatoes, cabbage</li><li>Manitoba oats, wild rice, hemp hearts, lentils</li><li>Butter, olive oil, full-fat dairy if tolerated — nothing ultra-processed</li></ul></div>
-    <div class="card"><span class="emoji">👶</span><h3>One kitchen, three eaters</h3>
-      <ul><li>Baby eats simplified versions of family meals (no added salt, sugar or honey before 12 months)</li><li>Iron-rich first foods — key for breastfed babies at 6 months</li><li>Purées → mashes → soft finger foods → family table</li></ul></div>
+<!-- ============ KITCHEN ============ -->
+<section class="panel show" id="kitchen">
+  <h2>This week's quest board</h2>
+  <p class="lead">Pick a dinner for each day — the game ranks recipes by what's in your <b>Pantry</b>. Cook it, earn XP, level up. Stock your pantry first for the best matches!</p>
+  <div class="howto" id="howto" hidden>
+    <div class="step"><span class="num">1</span><span>Stock your <b>📦 Pantry</b> with what's at home</span></div>
+    <div class="step"><span class="num">2</span><span>Plan dinners — the game ranks recipes you can cook <b>tonight</b></span></div>
+    <div class="step"><span class="num">3</span><span>Hit <b>🍳 Cook!</b> to earn XP, level up &amp; unlock trophies</span></div>
   </div>
-
-  <div class="plate-wrap">
-    <div class="plate" role="img" aria-label="Plate chart: half vegetables and fruit, quarter protein, quarter whole grains and starches"></div>
-    <div class="legend">
-      <h3 style="color:var(--green-dark);margin-bottom:6px">The everyday plate</h3>
-      <div><span class="swatch" style="background:var(--green)"></span> ½ vegetables &amp; fruit — seasonal, local where possible</div>
-      <div><span class="swatch" style="background:var(--terracotta)"></span> ¼ protein — grass-fed meat, wild fish, eggs, legumes</div>
-      <div><span class="swatch" style="background:var(--gold)"></span> ¼ whole grains &amp; starchy veg — oats, wild rice, potatoes, squash</div>
-      <p style="margin-top:10px;font-size:.84rem;color:var(--muted)">Plus healthy fats (butter, olive oil, avocado) and water as the main drink. Vitamin D matters on the prairies — especially October to April.</p>
+  <div class="board-top">
+    <div class="season-tag" id="seasonTag"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn ghost small" id="btnAutofill">✨ Auto-plan my week</button>
+      <button class="btn ghost small" id="btnNewWeek">🔄 Start new week</button>
     </div>
   </div>
+  <div class="board" id="board"></div>
+  <div class="shop-card" id="shopCard"></div>
+</section>
 
-  <div class="grid c3" style="margin-top:20px">
-    <div class="card"><span class="emoji">👩</span><h3>Mom</h3><ul><li>~2,100–2,500 kcal/day (more if breastfeeding: +350–500 kcal)</li><li>Priorities: iron, omega-3 (fish 2×/week), calcium, vitamin D, plenty of fluids</li><li>Snacks built into the plan — no running on empty</li></ul></div>
-    <div class="card"><span class="emoji">👨</span><h3>Dad</h3><ul><li>~2,400–2,800 kcal/day depending on activity</li><li>Protein at every meal; bigger portions of the same dishes</li><li>Hearty prairie staples: bison chili, roasts, pickerel fry</li></ul></div>
-    <div class="card"><span class="emoji">👶</span><h3>Baby (5 months now)</h3><ul><li>Breast milk or formula stays the main food all year</li><li>Solids begin around 6 months, per Health Canada guidance</li><li>By 12 months: 3 small meals + snacks from the family table</li></ul></div>
+<!-- ============ PANTRY ============ -->
+<section class="panel" id="pantry">
+  <h2>Pantry inventory</h2>
+  <p class="lead">Tap what you have at home — freezer, cold room and cupboard all count. The quest board updates instantly. Salt, pepper, basic spices and cooking oil are always assumed.</p>
+  <div class="pantry-top">
+    <div class="pantry-count"><b id="pantryCount">0</b> / <span id="pantryTotal">0</span> items stocked</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn ghost small" id="btnStarter">🧺 Stock the starter kit</button>
+      <button class="btn ghost small" id="btnClearPantry">🗑️ Clear all</button>
+    </div>
   </div>
+  <div id="pantryGroups"></div>
 </section>
 
-<!-- ================= YEAR PLAN ================= -->
-<section class="panel" id="yearplan">
-  <h2>The 12-month plan</h2>
-  <p class="lead">Pick a month. Each one shows what's in season in Manitoba, your baby's stage, and a full 7-day rotation (repeat it weekly, swapping vegetables and cuts as the market changes). Click any day to expand it.</p>
-  <div class="month-bar" id="monthBar"></div>
-  <div id="monthView"></div>
-</section>
-
-<!-- ================= BABY ================= -->
-<section class="panel" id="baby">
-  <h2>Baby's solids journey — 5 to 16 months</h2>
-  <p class="lead">Baby is 5 months old now. Health Canada recommends starting solids at <b>about 6 months</b>, when baby shows readiness signs — so this first month is for watching and preparing, not feeding.</p>
-
-  <div class="alert"><b>Safety essentials:</b> no honey before 12 months (botulism risk) · no added salt or sugar · no whole nuts, hard raw veg or other choking hazards · introduce common allergens (peanut, egg, fish, dairy, wheat) one at a time, early and often, ideally starting around 6 months · always feed seated and supervised · this page is a planning aid, not medical advice — confirm details with your doctor or public-health nurse.</div>
-
-  <div class="timeline">
-    <div class="tl-item"><span class="age">5 months · June</span><h4>Watch &amp; prepare</h4>
-      <p>Milk only. Look for readiness: sits with little support, good head control, reaches for food, lost the tongue-thrust reflex.</p>
-      <ul><li>Buy: small blender or food mill, silicone ice-cube trays, soft spoons, bibs, suction bowl</li><li>Let baby join the table at mealtimes to watch you eat</li></ul></div>
-    <div class="tl-item"><span class="age">6 months · July</span><h4>First tastes — iron first</h4>
-      <p>Start with iron-rich foods once a day, 1–2 teaspoons, working up.</p>
-      <ul><li>Puréed grass-fed beef or bison (simmered, blended with broth)</li><li>Iron-fortified oat cereal made with Manitoba oats</li><li>Single veg purées: carrot, squash, zucchini from the garden/market</li><li>Begin allergen introductions: well-cooked egg yolk-and-white purée, smooth peanut butter thinned into purée</li></ul></div>
-    <div class="tl-item"><span class="age">7–8 months · Aug–Sep</span><h4>Thicker mashes &amp; harvest flavours</h4>
-      <ul><li>2 meals/day → mashed, lumpier textures</li><li>Flaked Manitoba pickerel (bones carefully removed), lentil mash, mashed saskatoons &amp; raspberries</li><li>Soft finger foods: steamed carrot sticks, ripe pear slices, toast strips</li><li>Offer water in an open cup at meals</li></ul></div>
-    <div class="tl-item"><span class="age">9–11 months · Oct–Dec</span><h4>Finger-food explorer</h4>
-      <ul><li>3 meals/day plus milk feeds; baby largely self-feeds soft pieces</li><li>Shredded pot-roast beef, meatballs, scrambled egg, soft-cooked squash cubes, beans</li><li>Mini versions of family stews and soups (set baby's portion aside before salting)</li></ul></div>
-    <div class="tl-item"><span class="age">12 months · January</span><h4>Joining the family table 🎉</h4>
-      <ul><li>Eats the family meals, chopped small; whole pasteurized milk can be offered</li><li>Honey now okay; still keep salt and sugar low</li><li>3 meals + 2 snacks; milk feeds taper naturally</li></ul></div>
-    <div class="tl-item"><span class="age">13–16 months · Feb–May</span><h4>Confident toddler eater</h4>
-      <ul><li>Same food as parents — just cut safely (halve grapes/cherries, no whole nuts)</li><li>Practice with a spoon and fork; expect mess, keep offering variety</li><li>Appetite swings are normal — parents decide <i>what &amp; when</i>, toddler decides <i>how much</i></li></ul></div>
+<!-- ============ RECIPE BOOK ============ -->
+<section class="panel" id="book">
+  <h2>Recipe book</h2>
+  <p class="lead">Every recipe in the game — grass-fed prairie classics with full cooking instructions and a baby adaptation. Rarity = effort &amp; reward. Click a card to open it.</p>
+  <div class="filter-bar" id="bookFilters">
+    <input type="search" id="bookSearch" placeholder="🔍 Search recipes…">
   </div>
+  <div class="recipe-grid" id="bookGrid"></div>
 </section>
 
-<!-- ================= PREP ================= -->
-<section class="panel" id="prep">
-  <h2>The weekly prep routine</h2>
-  <p class="lead">About 2½ hours on Sunday sets up the whole week. Tick items off as you go — progress saves on this device.</p>
+<!-- ============ TROPHIES ============ -->
+<section class="panel" id="trophies">
+  <h2>Trophies &amp; stats</h2>
+  <p class="lead">Your kitchen career so far. Trophies award bonus XP when earned.</p>
+  <div class="stat-strip" id="statStrip"></div>
+  <div class="ach-grid" id="achGrid"></div>
+</section>
+
+<!-- ============ FAMILY ============ -->
+<section class="panel" id="family">
+  <h2>Family guide — baby's solids journey &amp; Manitoba sourcing</h2>
+  <p class="lead">Every recipe card includes a <b>👶 Little Sous-Chef</b> note so baby eats from the same pot. Here's the bigger picture.</p>
+
+  <div class="alert"><b>Safety essentials:</b> Health Canada recommends starting solids around <b>6 months</b> · no honey before 12 months · no added salt or sugar in baby's portion · no whole nuts or hard round foods · introduce allergens (egg, peanut, fish, dairy, wheat) one at a time, early and often · always seated and supervised · this is planning help, not medical advice — confirm with your doctor or public-health nurse.</div>
+
+  <div class="timeline" id="babyTimeline"></div>
+
+  <h2 style="margin-bottom:4px">Sourcing clean food in Manitoba</h2>
+  <p class="lead">Buying direct from producers usually beats retail prices for grass-fed — and you know exactly how it was raised.</p>
   <div class="grid c2">
-    <div class="checklist">
-      <h3>🛒 Saturday — market &amp; shop (45 min)</h3>
-      <p class="sub">Farmers' market in summer, freezer + root cellar + grocery in winter.</p>
-      <div class="progress"><div></div></div>
-      <div data-list="sat"></div>
-    </div>
-    <div class="checklist">
-      <h3>🍳 Sunday — big prep (2–2½ h)</h3>
-      <p class="sub">Oven, stovetop and slow cooker all running at once.</p>
-      <div class="progress"><div></div></div>
-      <div data-list="sun"></div>
-    </div>
-    <div class="checklist">
-      <h3>👶 Sunday — baby food block (30 min)</h3>
-      <p class="sub">From ~6 months on. One cube tray ≈ a week of one food.</p>
-      <div class="progress"><div></div></div>
-      <div data-list="baby"></div>
-    </div>
-    <div class="checklist">
-      <h3>🌙 Weeknight rhythm (15–25 min/night)</h3>
-      <p class="sub">Because the heavy lifting is already done.</p>
-      <div class="progress"><div></div></div>
-      <div data-list="week"></div>
-    </div>
+    <div class="card"><h3>🐂 Grass-fed beef &amp; bison</h3><ul>
+      <li>Farms across the Interlake, Parkland &amp; southwest sell quarters/halves — budget a chest freezer</li>
+      <li>Bison: lean, iron-rich, perfect for chili, burgers and baby's first meat purée</li>
+      <li>Ask: 100% grass-fed <i>and finished</i>? No routine antibiotics or hormones?</li></ul></div>
+    <div class="card"><h3>🐔 Pastured poultry &amp; eggs</h3><ul>
+      <li>Buy a season of pasture-raised whole chickens in fall; they freeze beautifully</li>
+      <li>Farm-gate eggs: deep yolks, ideal for baby's allergen introduction</li></ul></div>
+    <div class="card"><h3>🐟 Wild Manitoba fish</h3><ul>
+      <li>Pickerel (walleye), lake trout &amp; whitefish from Lake Winnipeg and northern lakes</li>
+      <li>Fish twice a week for parents; flaked deboned portions for baby from ~7 months</li></ul></div>
+    <div class="card"><h3>🥬 Veg, fruit &amp; pantry</h3><ul>
+      <li>June–Sept: farmers' markets, CSA box, U-pick saskatoons/strawberries/sour cherries — freeze flat</li>
+      <li>October: stock the cold room — squash, carrots, beets, cabbage, potatoes, onions</li>
+      <li>Manitoba staples year-round: oats, hemp hearts, lentils, wild rice, honey (12&nbsp;m+)</li></ul></div>
   </div>
-  <p style="margin-top:14px;font-size:.85rem;color:var(--muted)">Tip: cook dinner once, eat twice — every dinner in the year plan is portioned so leftovers become the next day's lunch.</p>
-</section>
-
-<!-- ================= SOURCING ================= -->
-<section class="panel" id="sourcing">
-  <h2>Sourcing clean food in Manitoba</h2>
-  <p class="lead">Where to find grass-fed, pasture-raised and wild foods around the province. Buying direct from producers is usually cheaper per pound and you know exactly how the animal was raised.</p>
-  <div class="grid c2">
-    <div class="card src-card"><h3>🐂 Grass-fed beef &amp; bison</h3><div class="where">Direct from farm · freezer quarters/halves</div>
-      <ul><li>Search "grass-finished beef Manitoba" — many farms in the Interlake, Parkland and southwest sell by the quarter or half (budget a chest freezer)</li><li>Manitoba is bison country: lean, iron-rich, ideal for chili, burgers and baby's first meat purée</li><li>Ask: 100% grass-fed and finished? No routine antibiotics/hormones? Dry-aged?</li></ul></div>
-    <div class="card src-card"><h3>🐔 Pastured poultry &amp; eggs</h3><div class="where">Farm gate · farmers' markets</div>
-      <ul><li>Pasture-raised whole chickens freeze well — buy a season's worth in fall</li><li>Farm-gate eggs from hens on pasture: deeper yolks, great for baby's allergen introduction</li><li>Local turkey for holidays and ground-turkey weeknights</li></ul></div>
-    <div class="card src-card"><h3>🐟 Wild Manitoba fish</h3><div class="where">Lake Winnipeg &amp; northern lakes · Freshwater Fish Market, fishmongers</div>
-      <ul><li>Pickerel (walleye) — the prairie classic, mild enough for baby</li><li>Lake trout &amp; whitefish — excellent omega-3 sources</li><li>Aim for fish twice a week for mom and dad; flaked, deboned portions for baby from ~7 months</li></ul></div>
-    <div class="card src-card"><h3>🥬 Vegetables, fruit &amp; pantry</h3><div class="where">St. Norbert &amp; community farmers' markets · CSA shares · U-pick</div>
-      <ul><li>June–September: CSA veggie box + market hauls; U-pick saskatoons, strawberries, raspberries, sour cherries — freeze flat on trays</li><li>October: stock the cold room — squash, carrots, beets, cabbage, potatoes, onions</li><li>Manitoba-grown staples year-round: oats, hemp hearts, lentils, wild rice, honey (12 m+), sunflower oil</li></ul></div>
-  </div>
-  <div class="card" style="margin-top:16px"><h3>💰 Budget notes</h3>
-    <ul><li>A half beef or bison (~90 kg) typically costs far less per pound than retail grass-fed cuts and covers most of the year's red meat</li><li>Whole chickens beat parts: roast once, then soup + sandwiches + bone broth</li><li>Frozen summer berries and fall root-cellar veg keep winter produce costs (and food miles) down</li><li>Bone broth from every roast = free soup base and a mineral-rich liquid for baby purées</li></ul></div>
 </section>
 
 </main>
 
 <footer>
-  <b>Our Family Table</b> · June 2026 – May 2027 · Manitoba, Canada<br><br>
-  This plan is for general meal-planning inspiration. It is not medical or dietetic advice. Follow Health Canada / Canadian Paediatric Society infant-feeding guidance and consult your physician, public-health nurse or a registered dietitian for your family's specific needs.
+  <b>Kitchen Quest · Prairie Table</b> · grass-fed, clean &amp; local — Manitoba, Canada<br><br>
+  For meal-planning inspiration only — not medical or dietetic advice. Follow Health Canada / Canadian Paediatric Society
+  infant-feeding guidance and consult your physician, public-health nurse or registered dietitian.
 </footer>
 
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+<div id="toasts"></div>
+
 <script>
-/* ============ navigation ============ */
-const nav = document.getElementById('nav');
-nav.addEventListener('click', e => {
-  const btn = e.target.closest('button'); if (!btn) return;
-  nav.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
-  document.querySelectorAll('section.panel').forEach(p => p.classList.toggle('show', p.id === btn.dataset.panel));
+'use strict';
+/* =====================================================
+   DATA — ingredients
+===================================================== */
+const ING = {
+  // proteins
+  beef_roast:    {n:'Grass-fed beef roast', e:'🥩', g:'protein'},
+  ground_beef:   {n:'Ground grass-fed beef',e:'🥩', g:'protein'},
+  ground_bison:  {n:'Ground bison',         e:'🦬', g:'protein'},
+  bison_steak:   {n:'Bison steaks',         e:'🦬', g:'protein'},
+  whole_chicken: {n:'Whole pasture chicken',e:'🍗', g:'protein'},
+  chicken_thighs:{n:'Chicken thighs',       e:'🍗', g:'protein'},
+  pickerel:      {n:'Pickerel fillets',     e:'🐟', g:'protein'},
+  lake_trout:    {n:'Lake trout',           e:'🐟', g:'protein'},
+  whitefish:     {n:'Whitefish',            e:'🐟', g:'protein'},
+  pork_loin:     {n:'Pork tenderloin',      e:'🐖', g:'protein'},
+  sausage:       {n:'Farm sausage',         e:'🌭', g:'protein'},
+  bacon:         {n:'Bacon',                e:'🥓', g:'protein'},
+  eggs:          {n:'Farm eggs',            e:'🥚', g:'protein'},
+  lentils:       {n:'Manitoba lentils',     e:'🫘', g:'protein'},
+  // vegetables & fruit
+  potatoes:    {n:'Potatoes',        e:'🥔', g:'veg'},
+  carrots:     {n:'Carrots',         e:'🥕', g:'veg'},
+  onions:      {n:'Onions',          e:'🧅', g:'veg'},
+  garlic:      {n:'Garlic',          e:'🧄', g:'veg'},
+  squash:      {n:'Squash',          e:'🎃', g:'veg'},
+  cabbage:     {n:'Cabbage',         e:'🥬', g:'veg'},
+  greens:      {n:'Salad greens',    e:'🥗', g:'veg'},
+  spinach:     {n:'Spinach',         e:'🌿', g:'veg'},
+  tomatoes:    {n:'Tomatoes',        e:'🍅', g:'veg'},
+  zucchini:    {n:'Zucchini',        e:'🥒', g:'veg'},
+  corn:        {n:'Corn',            e:'🌽', g:'veg'},
+  peas_frozen: {n:'Frozen peas',     e:'🟢', g:'veg'},
+  green_beans: {n:'Green beans',     e:'🫛', g:'veg'},
+  celery:      {n:'Celery',          e:'🌱', g:'veg'},
+  mushrooms:   {n:'Mushrooms',       e:'🍄', g:'veg'},
+  peppers:     {n:'Bell peppers',    e:'🫑', g:'veg'},
+  asparagus:   {n:'Asparagus',       e:'🎍', g:'veg'},
+  apples:      {n:'Apples',          e:'🍎', g:'veg'},
+  lemon:       {n:'Lemons',          e:'🍋', g:'veg'},
+  // staples
+  butter:      {n:'Butter',              e:'🧈', g:'staple'},
+  flour:       {n:'Flour',               e:'🌾', g:'staple'},
+  wild_rice:   {n:'Wild rice',           e:'🍚', g:'staple'},
+  rice:        {n:'Rice',                e:'🍚', g:'staple'},
+  pasta:       {n:'Pasta',               e:'🍝', g:'staple'},
+  egg_noodles: {n:'Egg noodles',         e:'🍜', g:'staple'},
+  broth:       {n:'Bone broth / stock',  e:'🍲', g:'staple'},
+  canned_tomatoes:{n:'Canned tomatoes',  e:'🥫', g:'staple'},
+  beans_canned:{n:'Canned beans',        e:'🥫', g:'staple'},
+  barley:      {n:'Barley',              e:'🌾', g:'staple'},
+  cheese:      {n:'Cheese',              e:'🧀', g:'staple'},
+  yogurt:      {n:'Plain yogurt',        e:'🥛', g:'staple'},
+  cream:       {n:'Cream / milk',        e:'🥛', g:'staple'},
+  bread:       {n:'Bread / buns / crumbs',e:'🍞', g:'staple'},
+  tortillas:   {n:'Tortillas',           e:'🌮', g:'staple'},
+  maple_syrup: {n:'Maple syrup',         e:'🍁', g:'staple'}
+};
+const GROUPS = [
+  {id:'protein', label:'🥩 Clean proteins — grass-fed, pastured & wild'},
+  {id:'veg',     label:'🥕 Vegetables & fruit — seasonal, market or cold room'},
+  {id:'staple',  label:'🌾 Pantry staples'}
+];
+const STARTER_KIT = ['eggs','lentils','potatoes','carrots','onions','garlic','butter','flour','rice','pasta',
+  'broth','canned_tomatoes','beans_canned','cheese','yogurt','cream','bread','peas_frozen'];
+
+/* =====================================================
+   DATA — recipes
+   cat: beef|bison|chicken|fish|pork|veg|egg
+   rarity: common|uncommon|rare|legendary
+===================================================== */
+const RECIPES = [
+ {id:'pot_roast', name:'Sunday Pot Roast', e:'🍖', cat:'beef', time:'3½–4 h (20 min hands-on)', diff:2, rarity:'rare', xp:30, seasons:['fall','winter'],
+  req:['beef_roast','carrots','potatoes','onions','broth'], opt:['garlic','butter'],
+  steps:['Preheat oven to 325°F. Pat a 3–4 lb grass-fed roast dry; season generously with salt & pepper.',
+   'Sear in butter or oil in a Dutch oven, 3–4 min per side, until deeply browned. Remove.',
+   'Soften the onions in the same pot; add garlic, then a splash of broth and scrape up the browned bits.',
+   'Return the roast on a bed of carrot chunks and halved potatoes. Pour broth halfway up the meat.',
+   'Cover and braise 3–3½ hours until fork-tender. Rest 15 minutes before slicing.',
+   'Simmer the pot juices down into a gravy; season at the table.'],
+  baby:'Shred the meat very fine and moisten with the unsalted pot juices. The soft carrots mash perfectly. Iron-rich star meal from 6 months (puréed) or 9 months (shredded).'},
+
+ {id:'bison_chili', name:'Prairie Bison Chili', e:'🌶️', cat:'bison', time:'45 min', diff:1, rarity:'uncommon', xp:20, seasons:['fall','winter'],
+  req:['ground_bison','onions','canned_tomatoes','beans_canned'], opt:['peppers','cheese','garlic'],
+  steps:['Brown the bison in a splash of oil, breaking it up — bison is lean, so it needs a little fat.',
+   'Add diced onion (and pepper) and soften 5 minutes; garlic for the last minute.',
+   'Stir in canned tomatoes, drained beans, chili powder and cumin. Simmer 25–30 minutes.',
+   'Scoop out baby’s portion BEFORE adding salt and heat; then season the family pot.',
+   'Serve with cheese on top. Tastes even better tomorrow.'],
+  baby:'Mash the reserved unspiced portion with avocado or yogurt — beans + bison = iron and protein (7 months+).'},
+
+ {id:'roast_chicken', name:'Classic Roast Chicken', e:'🍗', cat:'chicken', time:'1½ h', diff:2, rarity:'rare', xp:30, seasons:['fall','winter','spring','summer'],
+  req:['whole_chicken','butter','potatoes','carrots'], opt:['lemon','garlic'],
+  steps:['Preheat to 425°F. Pat the bird very dry; work soft butter under and over the skin; salt all over.',
+   'Tuck a halved lemon and garlic cloves inside if you have them. Surround with potato and carrot chunks.',
+   'Roast 1 h 15 – 1 h 30 until the thigh reads 165°F and the skin is bronzed. Rest 15 minutes.',
+   'Carve. Tonight’s bonus quest: drop the carcass in the slow cooker with water for overnight bone broth.'],
+  baby:'Finely shred the tender thigh meat and mash a roasted carrot with a spoon of unsalted juices (6 months+ as purée).'},
+
+ {id:'shore_lunch', name:'Pickerel Shore Lunch', e:'🎣', cat:'fish', time:'30 min', diff:1, rarity:'uncommon', xp:20, seasons:['summer','spring'],
+  req:['pickerel','flour','butter','potatoes'], opt:['lemon'],
+  steps:['Pat fillets dry and dredge in seasoned flour.',
+   'Heat butter with a little oil in cast iron until foaming.',
+   'Fry 2–3 minutes per side until golden and flaking. Squeeze lemon over.',
+   'Serve with pan-fried potatoes — the Manitoba classic.'],
+  baby:'Cook one fillet plain, flake it and triple-check for bones. Mild pickerel is a great first fish (7 months+).'},
+
+ {id:'meatballs', name:'Bison Meatballs & Pasta', e:'🍝', cat:'bison', time:'50 min', diff:2, rarity:'common', xp:20, seasons:['fall','winter','spring'],
+  req:['ground_bison','eggs','bread','canned_tomatoes','pasta'], opt:['cheese','garlic'],
+  steps:['Soak a slice of torn bread in a splash of milk or water; mix gently with bison, one egg and salt.',
+   'Roll into balls — make a small unsalted batch first for baby.',
+   'Brown the meatballs all over, then simmer in crushed tomatoes 20 minutes.',
+   'Cook pasta; toss everything together with cheese on top.'],
+  baby:'Baby-size unsalted meatballs, quartered, are top-tier finger food (9 months+; mashed into sauce from 7 months).'},
+
+ {id:'beef_barley', name:'Beef & Barley Soup', e:'🍲', cat:'beef', time:'1¼ h', diff:2, rarity:'common', xp:20, seasons:['winter','fall'],
+  req:['beef_roast','barley','carrots','celery','onions','broth'], opt:['garlic','mushrooms'],
+  steps:['Cube the beef and brown in batches — don’t crowd the pot.',
+   'Soften onion, carrot and celery in the drippings.',
+   'Add broth, barley and the beef. Simmer gently 1 h – 1 h 15 until everything is tender.',
+   'Season at the end so the broth doesn’t over-reduce salty.'],
+  baby:'Soft barley and shredded beef straight from the pot (scoop before salting) — a one-bowl baby meal (8 months+).'},
+
+ {id:'shepherds_pie', name:'Shepherd’s Pie', e:'🥧', cat:'beef', time:'1¼ h', diff:2, rarity:'uncommon', xp:25, seasons:['winter','fall'],
+  req:['ground_beef','potatoes','carrots','peas_frozen','onions','butter'], opt:['cream','cheese'],
+  steps:['Boil potatoes; mash with butter and a splash of cream or milk.',
+   'Brown the beef with onions; add diced carrots and peas with a splash of broth or water; simmer 10 minutes.',
+   'Layer the filling in a baking dish, spread mash on top and rough it up with a fork.',
+   'Bake at 400°F for 20–25 minutes until golden and bubbling at the edges.'],
+  baby:'It IS baby food — serve their scoop before you salt the filling (8 months+).'},
+
+ {id:'maple_pork', name:'Maple-Glazed Pork Tenderloin', e:'🍁', cat:'pork', time:'40 min', diff:2, rarity:'rare', xp:25, seasons:['spring'],
+  req:['pork_loin','maple_syrup','carrots'], opt:['apples','butter'],
+  steps:['Preheat to 400°F. Sear the seasoned tenderloin on all sides in an oven-safe pan.',
+   'Brush with maple syrup; scatter carrot chunks (and apple wedges) around it.',
+   'Roast 15–18 minutes to 145°F internal. Rest 5 minutes.',
+   'Slice and spoon the pan glaze over.'],
+  baby:'Set aside an unglazed piece before the syrup; chop fine with soft carrots. (Syrup itself is fine after 12 months.)'},
+
+ {id:'trout_wildrice', name:'Lake Trout & Wild Rice', e:'🐟', cat:'fish', time:'50 min', diff:2, rarity:'rare', xp:25, seasons:['fall','winter','spring','summer'],
+  req:['lake_trout','wild_rice','green_beans','butter'], opt:['lemon'],
+  steps:['Simmer wild rice 40–45 minutes until the grains split open.',
+   'Season the trout; sear skin-side down 4 minutes, flip for 2.',
+   'Steam green beans; finish everything with butter and lemon.'],
+  baby:'Flake the trout carefully (bone-check!) — omega-3 gold. Soft beans make easy finger food (7 months+).'},
+
+ {id:'dahl', name:'Manitoba Lentil Dahl', e:'🍛', cat:'veg', time:'40 min', diff:1, rarity:'common', xp:15, seasons:['fall','winter','spring','summer'],
+  req:['lentils','onions','garlic','canned_tomatoes','rice'], opt:['yogurt','spinach'],
+  steps:['Soften onion in butter or oil; add garlic and bloom your spices (cumin, turmeric) 1 minute.',
+   'Add rinsed lentils, tomatoes and 3 cups water. Simmer 25 minutes until soft.',
+   'Cook rice meanwhile.',
+   'Scoop baby’s portion out pre-salt, then finish the pot with salt, spinach and a swirl of yogurt.'],
+  baby:'Lentil mash is an iron superstar and a perfect early food (6 months+).'},
+
+ {id:'brekkie_dinner', name:'Breakfast-for-Dinner Skillet', e:'🍳', cat:'egg', time:'30 min', diff:1, rarity:'common', xp:15, seasons:['fall','winter','spring','summer'],
+  req:['eggs','potatoes','sausage'], opt:['peppers','cheese','onions'],
+  steps:['Crisp diced potatoes in a big skillet, 10–12 minutes.',
+   'Add sliced sausage (and peppers/onion); brown through.',
+   'Make wells, crack in the eggs, lid on until just set.'],
+  baby:'Plain scrambled egg plus soft potato cubes on the tray — egg is a priority allergen to introduce early (6 months+).'},
+
+ {id:'bison_burgers', name:'Bison Smash Burgers', e:'🍔', cat:'bison', time:'30 min', diff:1, rarity:'uncommon', xp:20, seasons:['summer','spring'],
+  req:['ground_bison','bread','greens','tomatoes'], opt:['cheese','onions'],
+  steps:['Form patties gently and press a dimple in each centre; salt the outsides only.',
+   'Grill or pan-fry about 4 minutes per side — bison is lean, don’t take it past medium.',
+   'Toast the buns; stack with greens and tomato.'],
+  baby:'A thin plain patty, crumbled or cut in strips, is great self-feeding practice (9 months+).'},
+
+ {id:'chicken_soup', name:'Chicken Noodle Soup', e:'🍜', cat:'chicken', time:'1 h', diff:1, rarity:'common', xp:15, seasons:['winter','fall'],
+  req:['chicken_thighs','egg_noodles','carrots','celery','onions','broth'], opt:['garlic'],
+  steps:['Brown the thighs; set aside. Soften carrot, celery and onion in the pot.',
+   'Return the chicken with the broth; simmer 25 minutes, then shred the meat back in.',
+   'Add noodles for the last 8 minutes. Season at the end.'],
+  baby:'Cut-up noodles, shredded chicken and soft veg — scoop before salting (8 months+).'},
+
+ {id:'cabbage_skillet', name:'Cabbage Roll Skillet', e:'🥬', cat:'beef', time:'45 min', diff:1, rarity:'common', xp:15, seasons:['fall','winter'],
+  req:['ground_beef','cabbage','rice','canned_tomatoes','onions'], opt:['garlic'],
+  steps:['Brown the beef with onion in a deep skillet.',
+   'Add sliced cabbage and cook down about 8 minutes.',
+   'Stir in rice, tomatoes and a splash of water; cover and simmer 20 minutes until the rice is tender.'],
+  baby:'Chop fine — the cabbage turns soft and sweet by the end. All the prairie comfort, no rolling (8 months+).'},
+
+ {id:'chowder', name:'Pickerel Corn Chowder', e:'🥣', cat:'fish', time:'50 min', diff:2, rarity:'uncommon', xp:20, seasons:['winter','fall'],
+  req:['pickerel','potatoes','corn','cream','onions'], opt:['bacon','butter'],
+  steps:['Render chopped bacon if using; soften onion in the fat (or butter).',
+   'Add diced potatoes and water or broth to cover; simmer 12 minutes.',
+   'Add corn, cream and pickerel chunks; cook gently 5 minutes — never boil hard once the fish is in.'],
+  baby:'Mash some potato and flaked fish (bone-check) before the bacon and salt go in (7 months+).'},
+
+ {id:'stroganoff', name:'Bison Stroganoff', e:'🍄', cat:'bison', time:'40 min', diff:2, rarity:'rare', xp:25, seasons:['winter','fall'],
+  req:['bison_steak','mushrooms','cream','egg_noodles','onions'], opt:['butter','garlic'],
+  steps:['Slice the steak thin; flash-sear in a very hot pan and remove — bison overcooks fast.',
+   'Brown the mushrooms and onions properly in butter.',
+   'Add cream and a splash of broth; return the beef for 2 minutes only.',
+   'Serve over buttered egg noodles.'],
+  baby:'Chop noodles and soft mushrooms small; mince the quick-cooked meat finely and moisten with sauce (9 months+).'},
+
+ {id:'squash_soup', name:'Squash & Lentil Soup', e:'🎃', cat:'veg', time:'50 min', diff:1, rarity:'common', xp:15, seasons:['fall','winter'],
+  req:['squash','lentils','broth','onions'], opt:['cream','apples'],
+  steps:['Cube the squash (roasting half of it first deepens the flavour); soften onion in the pot.',
+   'Add squash, rinsed lentils and broth; simmer 25 minutes.',
+   'Blend smooth. Finish with cream and a few diced apple bits on top.'],
+  baby:'It’s already a purée — ladle baby’s out before salting (6 months+).'},
+
+ {id:'tourtiere', name:'Tourtière (Prairie Meat Pie)', e:'🥧', cat:'pork', time:'2 h', diff:3, rarity:'legendary', xp:40, seasons:['winter'],
+  req:['ground_beef','potatoes','onions','flour','butter'], opt:['sausage','eggs'],
+  steps:['Make pastry: 2½ cups flour, 1 cup cold butter, ice water — or thaw a good frozen one. Chill it.',
+   'Simmer beef (plus squeezed-out sausage meat for the classic pork mix), onion, one grated potato, and a pinch each of cinnamon, clove and allspice, about 20 minutes. Cool completely.',
+   'Fill a double crust, crimp, cut vents, brush with beaten egg.',
+   'Bake 400°F for 15 minutes, then 350°F for 30–35 until deep golden. Rest before slicing.'],
+  baby:'The pre-salt filling mashes beautifully; flaky pastry bits are fun finger food from 9 months.'},
+
+ {id:'steak_night', name:'Bison Steak Night', e:'🥩', cat:'bison', time:'35 min', diff:2, rarity:'legendary', xp:40, seasons:['fall','winter','spring','summer'],
+  req:['bison_steak','potatoes','butter'], opt:['asparagus','green_beans','garlic'],
+  steps:['Bring steaks to room temperature 30 minutes; pat very dry; salt well.',
+   'Get cast iron screaming hot. Sear 3–4 minutes per side, basting with butter and garlic at the end. Bison: pull a touch earlier than beef — it’s leaner.',
+   'Rest a full 8 minutes (this is the secret).',
+   'Serve with baked potatoes and quick-blistered asparagus or beans.'],
+  baby:'Mince a centre cut very fine and moisten with resting juices (finely minced from 9 months; small soft pieces from 12).'},
+
+ {id:'dumplings', name:'Chicken & Dumplings', e:'🥟', cat:'chicken', time:'1¼ h', diff:3, rarity:'rare', xp:30, seasons:['winter','fall'],
+  req:['chicken_thighs','flour','carrots','celery','broth','peas_frozen'], opt:['cream','butter'],
+  steps:['Simmer the thighs with carrot, celery and broth for 25 minutes; shred the meat back in.',
+   'Stir in peas; season lightly (set baby’s cup aside first).',
+   'Mix a quick dumpling dough: 1½ cups flour, 2 tsp baking powder, 3 tbsp butter, ¾ cup milk.',
+   'Drop spoonfuls on the simmering stew, lid ON for 15 minutes — no peeking — until puffed.'],
+  baby:'Soft dumpling pieces, shredded chicken and squishy carrots — a full baby meal (8 months+).'},
+
+ {id:'frittata', name:'Market Veg Frittata', e:'🥚', cat:'egg', time:'30 min', diff:1, rarity:'common', xp:15, seasons:['spring','summer','fall','winter'],
+  req:['eggs','cheese','onions'], opt:['zucchini','spinach','peppers'],
+  steps:['Preheat to 375°F. Whisk 8 eggs with a handful of cheese.',
+   'Soften whatever veg you have in an oven-safe skillet.',
+   'Pour in the eggs; 2 minutes on the stove, then 12–15 in the oven until just set.'],
+  baby:'Frittata strips are a classic baby-led food once egg is introduced (6 months+).'},
+
+ {id:'tacos', name:'Grass-Fed Beef Tacos', e:'🌮', cat:'beef', time:'30 min', diff:1, rarity:'common', xp:15, seasons:['summer','spring','fall','winter'],
+  req:['ground_beef','tortillas','tomatoes','greens'], opt:['cheese','corn','onions'],
+  steps:['Brown the beef with onion; scoop baby’s plain portion out, then season the pan (chili, cumin, salt).',
+   'Warm the tortillas in a dry pan.',
+   'Build at the table — tomatoes, greens, cheese. Taco night is self-serve by design.'],
+  baby:'Deconstructed: plain beef, avocado if you have it, soft tortilla bits (9 months+).'},
+
+ {id:'papillote', name:'Whitefish en Papillote', e:'🐠', cat:'fish', time:'30 min', diff:2, rarity:'uncommon', xp:20, seasons:['spring','summer'],
+  req:['whitefish','lemon','zucchini','butter'], opt:[],
+  steps:['Preheat to 400°F. Lay each fillet on a parchment square with zucchini ribbons, lemon slices and a knob of butter.',
+   'Fold and crimp the packets tightly closed.',
+   'Bake 12–15 minutes. Open carefully — hot steam! — and serve in the paper.'],
+  baby:'Steamed fish flakes (bone-check) and soft zucchini mash straight from baby’s own little packet (7 months+).'},
+
+ {id:'kebabs', name:'Bison Garden Kebabs', e:'🍢', cat:'bison', time:'40 min + marinade', diff:2, rarity:'uncommon', xp:20, seasons:['summer'],
+  req:['bison_steak','peppers','zucchini','onions','rice'], opt:['garlic','lemon'],
+  steps:['Cube the steak; marinate 30 minutes in oil, garlic and herbs.',
+   'Thread skewers alternating meat, pepper, zucchini and onion.',
+   'Grill 8–10 minutes, turning often; rest briefly.',
+   'Serve over rice with lemon.'],
+  baby:'Slide baby’s share off the skewer: soft grilled veg plus finely minced meat over rice (9 months+).'}
+];
+const CATS = [
+  {id:'all', label:'All'}, {id:'ready', label:'✅ Ready to cook'},
+  {id:'beef', label:'🥩 Beef'}, {id:'bison', label:'🦬 Bison'}, {id:'chicken', label:'🍗 Chicken'},
+  {id:'fish', label:'🐟 Fish'}, {id:'pork', label:'🐖 Pork'}, {id:'veg', label:'🫘 Veg'}, {id:'egg', label:'🥚 Eggs'}
+];
+
+/* =====================================================
+   DATA — levels & achievements
+===================================================== */
+const LEVELS = [
+  {xp:0,   name:'Prep Cook',       icon:'🔪'},
+  {xp:60,  name:'Line Cook',       icon:'🍳'},
+  {xp:150, name:'Sous-Chef',       icon:'🥄'},
+  {xp:300, name:'Chef de Partie',  icon:'🍲'},
+  {xp:500, name:'Head Chef',       icon:'👨‍🍳'},
+  {xp:750, name:'Prairie Legend',  icon:'🌾'}
+];
+const ACH = [
+  {id:'first_flame',  e:'🔥', name:'First Flame',     desc:'Cook your first recipe', test:s=>s.cookLog.length>=1},
+  {id:'strategist',   e:'🗺️', name:'Strategist',      desc:'Plan all 7 days of the week', test:s=>Object.values(s.week).filter(d=>d.recipeId).length>=7},
+  {id:'lake_life',    e:'🎣', name:'Lake Life',       desc:'Cook 3 fish recipes', test:s=>cookCountBy(s,'fish')>=3},
+  {id:'prairie_power',e:'🦬', name:'Prairie Power',   desc:'Cook 3 bison recipes', test:s=>cookCountBy(s,'bison')>=3},
+  {id:'quartermaster',e:'📦', name:'Quartermaster',   desc:'Stock 20+ pantry items', test:s=>s.pantry.length>=20},
+  {id:'legendary',    e:'👑', name:'Legendary Feast', desc:'Cook a legendary recipe', test:s=>s.cookLog.some(c=>{const r=byId(c.id);return r&&r.rarity==='legendary';})},
+  {id:'clean_sweep',  e:'🧹', name:'Clean Sweep',     desc:'Cook all 7 dinners in one week', test:s=>Object.values(s.week).filter(d=>d.cooked).length>=7},
+  {id:'explorer',     e:'🧭', name:'Explorer',        desc:'Cook 10 different recipes', test:s=>new Set(s.cookLog.map(c=>c.id)).size>=10}
+];
+const ACH_BONUS_XP = 20;
+
+/* =====================================================
+   STATE
+===================================================== */
+const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const BABY_BIRTH = new Date(2026, 0, 10); // ~5 months old in June 2026
+
+function freshWeek(){ const w={}; DAYS.forEach((_,i)=>w[i]={recipeId:null, cooked:false}); return w; }
+function load(key, fallback){
+  try{ const v = JSON.parse(localStorage.getItem('kq_'+key)); return v===null||v===undefined?fallback:v; }
+  catch(e){ return fallback; }
+}
+const state = {
+  pantry:  load('pantry', []),
+  week:    Object.assign(freshWeek(), load('week', {})),
+  cookLog: load('cookLog', []),
+  xp:      load('xp', 0),
+  ach:     load('ach', [])
+};
+function save(){
+  try{
+    localStorage.setItem('kq_pantry', JSON.stringify(state.pantry));
+    localStorage.setItem('kq_week', JSON.stringify(state.week));
+    localStorage.setItem('kq_cookLog', JSON.stringify(state.cookLog));
+    localStorage.setItem('kq_xp', JSON.stringify(state.xp));
+    localStorage.setItem('kq_ach', JSON.stringify(state.ach));
+  }catch(e){/* private mode — game still plays, just won't persist */}
+}
+
+/* =====================================================
+   HELPERS
+===================================================== */
+const $ = s=>document.querySelector(s);
+const byId = id=>RECIPES.find(r=>r.id===id);
+const inStock = id=>state.pantry.includes(id);
+const missingFor = r=>r.req.filter(i=>!inStock(i));
+function cookCountBy(s, cat){ return s.cookLog.filter(c=>{const r=byId(c.id);return r&&r.cat===cat;}).length; }
+function seasonNow(){
+  const m = new Date().getMonth()+1;
+  if(m>=6&&m<=8) return 'summer';
+  if(m>=9&&m<=10) return 'fall';
+  if(m>=4&&m<=5) return 'spring';
+  return 'winter';
+}
+const SEASON_LABEL = {summer:'☀️ Summer', fall:'🍂 Fall', winter:'❄️ Winter', spring:'🌱 Spring'};
+function babyMonths(){
+  const now = new Date();
+  let m = (now.getFullYear()-BABY_BIRTH.getFullYear())*12 + (now.getMonth()-BABY_BIRTH.getMonth());
+  if(now.getDate() < BABY_BIRTH.getDate()) m--;
+  return Math.max(m, 0);
+}
+function babyStage(m){
+  if(m<6)  return {label:'Watching & preparing — milk only', idx:0};
+  if(m<7)  return {label:'First tastes — iron-rich purées', idx:1};
+  if(m<9)  return {label:'Mashes & early finger foods', idx:2};
+  if(m<12) return {label:'Finger-food explorer, 3 meals/day', idx:3};
+  if(m<13) return {label:'Joining the family table 🎉', idx:4};
+  return {label:'Confident toddler eater', idx:5};
+}
+function levelFor(xp){
+  let li=0; LEVELS.forEach((l,i)=>{ if(xp>=l.xp) li=i; });
+  return li;
+}
+function diffStr(d){ return '🔥'.repeat(d); }
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* =====================================================
+   TOASTS, CONFETTI, XP
+===================================================== */
+function toast(html, ms){
+  const t=document.createElement('div'); t.className='toast'; t.innerHTML=html;
+  $('#toasts').appendChild(t);
+  setTimeout(()=>{ t.style.transition='opacity .4s'; t.style.opacity='0'; setTimeout(()=>t.remove(),400); }, ms||3200);
+}
+function confetti(){
+  const bits=['🎉','✨','⭐','🍁','🌾','🥕'];
+  for(let i=0;i<26;i++){
+    const c=document.createElement('span'); c.className='confetti';
+    c.textContent=bits[Math.floor(Math.random()*bits.length)];
+    c.style.left=Math.random()*100+'vw';
+    c.style.animationDuration=(1.6+Math.random()*1.6)+'s';
+    c.style.animationDelay=(Math.random()*.4)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 3800);
+  }
+}
+function addXP(n){
+  const before=levelFor(state.xp);
+  state.xp+=n;
+  const after=levelFor(state.xp);
+  if(after>before){
+    confetti();
+    toast(`<b>LEVEL UP!</b> ${LEVELS[after].icon} You are now <b>${LEVELS[after].name}</b> (Lv ${after+1})`, 4500);
+  }
+  save(); renderHUD();
+}
+function checkAchievements(){
+  ACH.forEach(a=>{
+    if(!state.ach.includes(a.id) && a.test(state)){
+      state.ach.push(a.id);
+      confetti();
+      toast(`🏆 <b>Trophy unlocked:</b> ${a.e} ${a.name} (+${ACH_BONUS_XP} XP)`, 4500);
+      addXP(ACH_BONUS_XP);
+    }
+  });
+  save(); renderHUD(); renderTrophies();
+}
+
+/* =====================================================
+   HUD
+===================================================== */
+function renderHUD(){
+  const li=levelFor(state.xp), lvl=LEVELS[li], next=LEVELS[li+1];
+  $('#hudLvlIcon').textContent=lvl.icon;
+  $('#hudLvlNum').textContent=li+1;
+  $('#hudLvlName').textContent=lvl.name;
+  if(next){
+    const span=next.xp-lvl.xp, into=state.xp-lvl.xp;
+    $('#hudXpBar').style.width=Math.min(100, Math.round(100*into/span))+'%';
+    $('#hudXpLabel').textContent=`${state.xp} XP · ${next.xp-state.xp} to ${next.name}`;
+  }else{
+    $('#hudXpBar').style.width='100%';
+    $('#hudXpLabel').textContent=`${state.xp} XP · MAX LEVEL`;
+  }
+  $('#hudCooked').textContent=state.cookLog.length;
+  $('#hudBadges').textContent=state.ach.length;
+  $('#hudBabyAge').textContent='baby: '+babyMonths()+' mo';
+}
+
+/* =====================================================
+   QUEST BOARD
+===================================================== */
+function matchInfo(r){
+  const miss=missingFor(r);
+  if(miss.length===0) return {cls:'ready', txt:'✅ Ready to cook', miss};
+  if(miss.length<=2)  return {cls:'close', txt:'🛒 Missing '+miss.length+': '+miss.map(i=>ING[i].n).join(', '), miss};
+  return {cls:'far', txt:'🛒 Missing '+miss.length+' ingredients', miss};
+}
+function renderBoard(){
+  $('#howto').hidden = state.cookLog.length>0;
+  const sn=seasonNow();
+  $('#seasonTag').innerHTML=`${SEASON_LABEL[sn]} <b>in Manitoba</b> · seasonal recipes get a ⭐ · 👶 baby is <b>${babyMonths()} months</b> — ${babyStage(babyMonths()).label}`;
+  const todayIdx=(new Date().getDay()+6)%7; // Monday = 0
+  $('#board').innerHTML=DAYS.map((d,i)=>{
+    const slot=state.week[i], r=slot.recipeId?byId(slot.recipeId):null;
+    let inner;
+    if(r){
+      const m=matchInfo(r);
+      inner=`
+        <div class="slot">
+          <span class="remoji">${r.e}</span>
+          <span class="rname" data-open="${r.id}" title="Open recipe">${r.name}</span>
+          <span class="status-chip ${m.cls}">${esc(m.txt)}</span>
+        </div>
+        <div class="day-actions">
+          <button class="btn small ghost" data-pick="${i}">↺ Swap</button>
+          <button class="btn small gold" data-cook="${i}">🍳 Cook! +${r.xp} XP</button>
+        </div>`;
+    }else{
+      inner=`
+        <div class="slot"><span class="empty">No quest yet…</span></div>
+        <div class="day-actions">
+          <button class="btn small" data-pick="${i}">📖 Choose</button>
+          <button class="btn small ghost" data-spin="${i}">🎲 Surprise</button>
+        </div>`;
+    }
+    const stamp = slot.cooked && r ? `
+      <div class="cooked-stamp">
+        <span class="big">✅</span><span>${r.name}</span><span class="xp">+${r.xp} XP earned</span>
+        <button class="btn small ghost" data-uncook="${i}">↺ Replan day</button>
+      </div>`:'';
+    return `<div class="day-card${i===todayIdx?' today':''}">
+      <div class="dow"><span>${d}</span>${i===todayIdx?'<span class="today-pip">★ TODAY</span>':''}</div>
+      ${inner}${stamp}
+    </div>`;
+  }).join('');
+  renderShopping();
+}
+function renderShopping(){
+  const need={}; // ingId -> [recipe names]
+  Object.values(state.week).forEach(slot=>{
+    if(!slot.recipeId||slot.cooked) return;
+    const r=byId(slot.recipeId); if(!r) return;
+    missingFor(r).forEach(i=>{ (need[i]=need[i]||[]).push(r.name); });
+  });
+  const ids=Object.keys(need);
+  let body;
+  if(!Object.values(state.week).some(s=>s.recipeId)){
+    body=`<p class="all-set">🗺️ Plan some dinners above and your shopping list will build itself from whatever your pantry is missing.</p>`;
+  }else if(ids.length===0){
+    body=`<p class="all-set">🎉 Fully stocked — every planned dinner is ready to cook from the pantry!</p>`;
+  }else{
+    body='<div class="shop-groups">'+GROUPS.map(g=>{
+      const items=ids.filter(i=>ING[i].g===g.id);
+      if(!items.length) return '';
+      return `<div><h4>${g.label}</h4>${items.map(i=>
+        `<div class="shop-item">${ING[i].e} ${ING[i].n} <small>· for ${[...new Set(need[i])].join(', ')}</small></div>`).join('')}</div>`;
+    }).join('')+'</div>';
+  }
+  $('#shopCard').innerHTML=`
+    <h3><span>🛒 Auto shopping list <small style="font-weight:400;color:var(--muted);font-size:.74rem">— what your planned week needs that the pantry lacks</small></span>
+    ${ids.length?`<button class="btn ghost small" id="btnCopyShop">📋 Copy list</button>`:''}</h3>${body}`;
+  const copy=$('#btnCopyShop');
+  if(copy) copy.addEventListener('click',()=>{
+    const txt='Kitchen Quest shopping list:\n'+ids.map(i=>'• '+ING[i].n).join('\n');
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(()=>toast('📋 Shopping list copied!'),()=>toast('Couldn’t copy — select it manually.'));
+    } else toast('Couldn’t copy — select it manually.');
+  });
+}
+
+/* surprise spinner */
+function spin(day){
+  const pool=RECIPES.filter(r=>missingFor(r).length===0);
+  const fallback=RECIPES.filter(r=>missingFor(r).length<=2);
+  const candidates=(pool.length?pool:(fallback.length?fallback:RECIPES));
+  const card=$('#board').children[day];
+  const slotEl=card?card.querySelector('.slot'):null;
+  let n=0;
+  const iv=setInterval(()=>{
+    const r=candidates[Math.floor(Math.random()*candidates.length)];
+    if(slotEl) slotEl.innerHTML=`<span class="remoji">${r.e}</span><span class="rname">${r.name}</span>`;
+    if(++n>=10){
+      clearInterval(iv);
+      const winner=candidates[Math.floor(Math.random()*candidates.length)];
+      state.week[day]={recipeId:winner.id, cooked:false};
+      save(); renderBoard(); checkAchievements();
+      toast(`🎲 The skillet has spoken: <b>${winner.name}</b> for ${DAYS[day]}!`);
+    }
+  },90);
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+function openModal(html){ $('#modal').innerHTML=html+`<button class="close-x" data-close>✕</button>`; $('#overlay').classList.add('show'); document.body.style.overflow='hidden'; }
+function closeModal(){ $('#overlay').classList.remove('show'); document.body.style.overflow=''; }
+$('#overlay').addEventListener('click',e=>{ if(e.target.id==='overlay'||e.target.dataset.close!==undefined&&e.target.hasAttribute('data-close')) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+function recipeDetailHTML(r, assignDay){
+  const sn=seasonNow();
+  const m=matchInfo(r);
+  const ingRow=(i,optional)=>{
+    const have=inStock(i);
+    return `<div class="ing ${have?'have':'need'} ${optional?'opt':''}" data-toggle-ing="${i}" data-rid="${r.id}" data-day="${assignDay===undefined?'':assignDay}" title="Tap to mark ${have?'out of':'in'} stock">
+      <span class="mark">${have?'✓':'✗'}</span> ${ING[i].e} ${ING[i].n}${optional?' <small>(optional)</small>':''}</div>`;
+  };
+  return `
+    <div class="rhead"><span class="remoji">${r.e}</span>
+      <div><h3>${r.name}</h3>
+      <div class="rmeta">
+        <span class="rarity-tag rt-${r.rarity}">${r.rarity}</span>
+        <span>⏱️ ${r.time}</span><span>${diffStr(r.diff)} difficulty</span><span>⚡ ${r.xp} XP</span>
+        ${r.seasons.includes(sn)?'<span>⭐ in season now</span>':''}
+      </div></div>
+    </div>
+    <div class="match-line ${m.cls==='ready'?'ok':(m.cls==='close'?'warn':'bad')}" style="margin-bottom:10px">${esc(m.txt)}</div>
+    <h4 style="color:var(--green-dark);margin-bottom:6px">Ingredients</h4>
+    <div class="ing-list">${r.req.map(i=>ingRow(i,false)).join('')}${r.opt.map(i=>ingRow(i,true)).join('')}</div>
+    <div class="ing-hint">💡 Tap any ingredient to toggle it in your pantry. Salt, pepper, spices & oil are assumed.</div>
+    <h4 style="color:var(--green-dark);margin-bottom:4px">Cooking instructions</h4>
+    <ol class="steps">${r.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+    <div class="babybox"><b>👶 Little Sous-Chef:</b> ${r.baby}</div>
+    <div class="modal-actions">
+      ${assignDay!==undefined
+        ?`<button class="btn gold" data-assign="${r.id}" data-day="${assignDay}">📌 Assign to ${DAYS[assignDay]}</button>`
+        :`<button class="btn ghost" data-add-to-day="${r.id}">📌 Add to a day…</button>`}
+    </div>`;
+}
+function openRecipe(id, assignDay){ const r=byId(id); if(r) openModal(recipeDetailHTML(r, assignDay)); }
+
+function openPicker(day){
+  const sn=seasonNow();
+  const sorted=[...RECIPES].sort((a,b)=>{
+    const ma=missingFor(a).length, mb=missingFor(b).length;
+    if(ma!==mb) return ma-mb;
+    const sa=a.seasons.includes(sn)?1:0, sb=b.seasons.includes(sn)?1:0;
+    if(sa!==sb) return sb-sa;
+    return b.xp-a.xp;
+  });
+  const anyStock=state.pantry.length>0;
+  openModal(`
+    <div class="rhead"><span class="remoji">📖</span><div><h3>Choose ${DAYS[day]}’s dinner</h3>
+      <div class="rmeta"><span>Sorted by your pantry — best matches first</span></div></div></div>
+    ${anyStock?'':'<div class="babybox" style="margin-top:8px"><b>💡 Tip:</b> your pantry is empty — stock it in the 📦 Pantry tab and the game will rank what you can cook tonight.</div>'}
+    <div class="picker-list">${sorted.map(r=>{
+      const m=matchInfo(r);
+      return `<div class="pick-row" data-pickopen="${r.id}" data-day="${day}">
+        <span class="remoji">${r.e}</span>
+        <div class="pinfo">
+          <div class="pname">${r.name} ${r.seasons.includes(sn)?'⭐':''} <span class="rarity-tag rt-${r.rarity}">${r.rarity}</span></div>
+          <div class="pmatch ${m.cls==='ready'?'ok':(m.cls==='close'?'warn':'bad')}">${esc(m.txt)} · ⏱️ ${r.time} · ⚡ ${r.xp} XP</div>
+        </div>
+        <button class="btn small gold" data-assign="${r.id}" data-day="${day}">Assign</button>
+      </div>`;}).join('')}
+    </div>`);
+}
+function openDayChooser(recipeId){
+  openModal(`
+    <div class="rhead"><span class="remoji">📌</span><div><h3>Add ${byId(recipeId).name} to…</h3></div></div>
+    <div class="picker-list">${DAYS.map((d,i)=>{
+      const cur=state.week[i].recipeId?byId(state.week[i].recipeId):null;
+      return `<div class="pick-row" data-assign="${recipeId}" data-day="${i}">
+        <span class="remoji">📅</span>
+        <div class="pinfo"><div class="pname">${d}</div>
+        <div class="pmatch">${cur?('currently: '+cur.name):'free slot'}</div></div>
+        <button class="btn small gold" data-assign="${recipeId}" data-day="${i}">Pick</button></div>`;}).join('')}
+    </div>`);
+}
+
+/* =====================================================
+   PANTRY
+===================================================== */
+function renderPantry(){
+  $('#pantryTotal').textContent=Object.keys(ING).length;
+  $('#pantryCount').textContent=state.pantry.length;
+  $('#pantryGroups').innerHTML=GROUPS.map(g=>`
+    <div class="pantry-group"><h3>${g.label}</h3>
+      <div class="inv-grid">${Object.keys(ING).filter(k=>ING[k].g===g.id).map(k=>`
+        <div class="inv-item ${inStock(k)?'stocked':''}" data-ing="${k}">
+          <span class="iemoji">${ING[k].e}</span> ${ING[k].n} <span class="tick">✓</span>
+        </div>`).join('')}
+      </div></div>`).join('');
+}
+function togglePantry(id){
+  const i=state.pantry.indexOf(id);
+  if(i>=0) state.pantry.splice(i,1); else state.pantry.push(id);
+  save(); renderPantry(); renderBoard(); renderBook(); checkAchievements();
+}
+
+/* =====================================================
+   RECIPE BOOK
+===================================================== */
+let bookCat='all', bookQuery='';
+function renderBookFilters(){
+  const bar=$('#bookFilters');
+  bar.querySelectorAll('.fchip').forEach(c=>c.remove());
+  CATS.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='fchip'+(bookCat===c.id?' on':''); b.textContent=c.label;
+    b.addEventListener('click',()=>{ bookCat=c.id; renderBookFilters(); renderBook(); });
+    bar.appendChild(b);
+  });
+}
+function renderBook(){
+  const sn=seasonNow();
+  const list=RECIPES.filter(r=>{
+    if(bookCat==='ready'&&missingFor(r).length>0) return false;
+    if(bookCat!=='all'&&bookCat!=='ready'&&r.cat!==bookCat) return false;
+    if(bookQuery&&!r.name.toLowerCase().includes(bookQuery)) return false;
+    return true;
+  });
+  $('#bookGrid').innerHTML=list.length?list.map(r=>{
+    const m=matchInfo(r);
+    return `<div class="rcard r-${r.rarity}" data-open="${r.id}">
+      ${r.seasons.includes(sn)?'<span class="seasonal-star" title="In season in Manitoba now">⭐</span>':''}
+      <div class="top"><span class="remoji">${r.e}</span>
+        <div><h4>${r.name}</h4>
+        <div class="meta"><span class="rarity-tag rt-${r.rarity}">${r.rarity}</span><span>⏱️ ${r.time}</span><span>${diffStr(r.diff)}</span><span>⚡ ${r.xp} XP</span></div></div></div>
+      <div class="match-line ${m.cls==='ready'?'ok':(m.cls==='close'?'warn':'bad')}">${esc(m.txt)}</div>
+    </div>`;}).join('')
+    :'<p style="color:var(--muted)">No recipes match — try another filter, or stock more pantry items to fill the ✅ Ready shelf.</p>';
+}
+
+/* =====================================================
+   TROPHIES
+===================================================== */
+function renderTrophies(){
+  const distinct=new Set(state.cookLog.map(c=>c.id)).size;
+  const li=levelFor(state.xp);
+  $('#statStrip').innerHTML=`
+    <div class="stat-box"><b>${state.xp}</b><span>total XP</span></div>
+    <div class="stat-box"><b>${LEVELS[li].icon}</b><span>Lv ${li+1} · ${LEVELS[li].name}</span></div>
+    <div class="stat-box"><b>${state.cookLog.length}</b><span>dishes cooked</span></div>
+    <div class="stat-box"><b>${distinct}</b><span>distinct recipes</span></div>
+    <div class="stat-box"><b>${state.pantry.length}</b><span>pantry items</span></div>
+    <div class="stat-box"><b>${state.ach.length}/${ACH.length}</b><span>trophies</span></div>`;
+  $('#achGrid').innerHTML=ACH.map(a=>{
+    const got=state.ach.includes(a.id);
+    return `<div class="ach ${got?'':'locked'}"><div class="aemoji">${got?a.e:'🔒'}</div>
+      <div><h4>${a.name}</h4><p>${a.desc}${got?' · ✅ earned':''}</p></div></div>`;
+  }).join('');
+}
+
+/* =====================================================
+   FAMILY TAB
+===================================================== */
+function renderFamily(){
+  const stages=[
+    {age:'5 months',     h:'Watch & prepare', p:'Milk only. Look for readiness: sits supported, steady head, reaches for food, tongue-thrust gone. Baby joins the table to watch you eat.'},
+    {age:'6 months',     h:'First tastes — iron first', p:'Iron-rich purées once a day: blended grass-fed beef or bison, iron-fortified oat cereal, single veg. Begin allergens: well-cooked egg, thinned peanut butter.'},
+    {age:'7–8 months',   h:'Mashes & harvest flavours', p:'Two meals a day, lumpier textures. Flaked deboned pickerel, lentil mash, mashed berries, steamed carrot sticks, toast strips. Water in an open cup.'},
+    {age:'9–11 months',  h:'Finger-food explorer', p:'Three meals; mostly self-feeding. Shredded pot roast, baby meatballs, scrambled egg, soft squash cubes — mini versions of the family pot, set aside before salting.'},
+    {age:'12 months',    h:'Family table 🎉', p:'Eats family meals chopped small; whole milk in a cup; honey now okay. Three meals plus two snacks.'},
+    {age:'13–16 months', h:'Confident toddler', p:'Same food as you, cut safely (halve grapes, no whole nuts). Appetite swings are normal — you decide what & when, toddler decides how much.'}
+  ];
+  const cur=babyStage(babyMonths()).idx;
+  $('#babyTimeline').innerHTML=stages.map((s,i)=>`
+    <div class="tl-item ${i===cur?'now':''}"><span class="age">${s.age}</span><h4>${s.h}</h4><p>${s.p}</p></div>`).join('');
+}
+
+/* =====================================================
+   GLOBAL EVENTS (delegation)
+===================================================== */
+document.addEventListener('click', e=>{
+  const t=e.target.closest('[data-pick],[data-spin],[data-cook],[data-uncook],[data-open],[data-assign],[data-pickopen],[data-toggle-ing],[data-add-to-day],[data-ing],[data-close]');
+  if(!t) return;
+  if(t.hasAttribute('data-close')){ closeModal(); return; }
+  if(t.dataset.ing){ togglePantry(t.dataset.ing); return; }
+  if(t.dataset.pick!==undefined && t.dataset.pick!==''){ openPicker(+t.dataset.pick); return; }
+  if(t.dataset.spin!==undefined && t.dataset.spin!==''){ spin(+t.dataset.spin); return; }
+  if(t.dataset.cook!==undefined && t.dataset.cook!==''){
+    const d=+t.dataset.cook, slot=state.week[d], r=byId(slot.recipeId); if(!r) return;
+    slot.cooked=true;
+    state.cookLog.push({id:r.id, date:new Date().toISOString().slice(0,10)});
+    save();
+    toast(`🍳 <b>${r.name}</b> cooked! <b>+${r.xp} XP</b>`);
+    addXP(r.xp);
+    renderBoard(); checkAchievements();
+    return;
+  }
+  if(t.dataset.uncook!==undefined && t.dataset.uncook!==''){
+    const d=+t.dataset.uncook, slot=state.week[d];
+    // remove the matching cook-log entry (keeps stats honest on replans)
+    const idx=state.cookLog.map(c=>c.id).lastIndexOf(slot.recipeId);
+    if(idx>=0){ const r=byId(slot.recipeId); state.cookLog.splice(idx,1); if(r) state.xp=Math.max(0,state.xp-r.xp); }
+    slot.cooked=false; slot.recipeId=null;
+    save(); renderHUD(); renderBoard(); renderTrophies();
+    return;
+  }
+  if(t.dataset.assign){
+    const d=+t.dataset.day;
+    state.week[d]={recipeId:t.dataset.assign, cooked:false};
+    save(); closeModal(); renderBoard(); checkAchievements();
+    toast(`📌 <b>${byId(t.dataset.assign).name}</b> planned for ${DAYS[d]}`);
+    return;
+  }
+  if(t.dataset.pickopen){
+    openRecipe(t.dataset.pickopen, +t.dataset.day);
+    return;
+  }
+  if(t.dataset.addToDay){ openDayChooser(t.dataset.addToDay); return; }
+  if(t.dataset.toggleIng){
+    const ing=t.dataset.toggleIng, rid=t.dataset.rid, day=t.dataset.day;
+    const i=state.pantry.indexOf(ing);
+    if(i>=0) state.pantry.splice(i,1); else state.pantry.push(ing);
+    save();
+    openRecipe(rid, day===''?undefined:+day); // re-render modal in place
+    renderPantry(); renderBoard(); renderBook(); checkAchievements();
+    return;
+  }
+  if(t.dataset.open){ openRecipe(t.dataset.open); return; }
+});
+
+/* nav */
+$('#nav').addEventListener('click', e=>{
+  const btn=e.target.closest('button'); if(!btn) return;
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active', b===btn));
+  document.querySelectorAll('section.panel').forEach(p=>p.classList.toggle('show', p.id===btn.dataset.panel));
   window.scrollTo({top:0, behavior:'smooth'});
 });
 
-/* ============ data ============ */
-const seasons = {
-  summer:{label:'Summer', color:'var(--summer)'},
-  fall:  {label:'Fall',   color:'var(--fall)'},
-  winter:{label:'Winter', color:'var(--winter)'},
-  spring:{label:'Spring', color:'var(--spring)'}
-};
-
-// Shared seasonal breakfast & lunch rotations (Mon..Sun)
-const breakfasts = {
-  summer:[
-    'Overnight Manitoba oats with saskatoons, hemp hearts & yogurt',
-    'Pasture-raised scrambled eggs, market tomatoes, sourdough toast',
-    'Greek yogurt with fresh raspberries, honey & granola',
-    'Veggie omelette (zucchini, green onion) with fruit',
-    'Oatmeal with grated apple, cinnamon & butter',
-    'Weekend: pancakes with sour-cherry compote & farm eggs',
-    'Weekend: pickerel hash with eggs (use Friday’s leftovers)'
-  ],
-  fall:[
-    'Steel-cut oats with stewed apples, walnuts & cinnamon',
-    'Eggs & leftover roast veg skillet',
-    'Pumpkin-spice overnight oats with hemp hearts',
-    'Boiled farm eggs, buttered rye toast, pear',
-    'Yogurt with frozen-summer berries & granola',
-    'Weekend: squash & cheddar frittata',
-    'Weekend: oat waffles with frozen saskatoon sauce'
-  ],
-  winter:[
-    'Hot oatmeal with frozen berries, butter & hemp hearts',
-    'Scrambled eggs with cheese, toast & stewed prunes',
-    'Leftover-roast hash with fried eggs',
-    'Yogurt, thawed berries, granola & a vitamin-D check-in ☀️',
-    'Porridge with grated frozen saskatoons & cinnamon',
-    'Weekend: bison-sausage & egg breakfast skillet',
-    'Weekend: buttermilk pancakes with sour-cherry sauce'
-  ],
-  spring:[
-    'Overnight oats with rhubarb compote & yogurt',
-    'Eggs with sautéed spring greens on toast',
-    'Smoothie: frozen berries, yogurt, oats, hemp hearts',
-    'Boiled eggs, toast soldiers & fruit',
-    'Oatmeal with the last of the frozen saskatoons',
-    'Weekend: asparagus & egg frittata (May)',
-    'Weekend: French toast with rhubarb-strawberry sauce'
-  ]
-};
-
-const lunchNote = 'Lunches = last night’s dinner, repurposed. Examples below.';
-const lunches = {
-  summer:[
-    'Leftover grilled chicken over market-greens salad',
-    'Bison-burger bowl: patty, greens, tomato, avocado',
-    'Pickerel tacos from last night’s fillets',
-    'Cold roast-beef & garden-veg wraps',
-    'Big chopped salad with boiled eggs & lentils',
-    'Picnic plate: cheese, sausage, veg sticks, fruit',
-    'Soup-and-sandwich from the week’s leftovers'
-  ],
-  fall:[
-    'Roast-chicken & root-veg bowl',
-    'Bison chili (thermos-friendly) with cornbread',
-    'Beef-and-barley soup from Sunday’s broth',
-    'Leftover meatloaf sandwiches with pickles',
-    'Lentil-squash soup, buttered rye',
-    'Harvest plate: leftovers + roasted squash + greens',
-    'Pot-roast leftovers over mashed potatoes'
-  ],
-  winter:[
-    'Slow-cooker stew from last night, in the thermos',
-    'Shepherd’s-pie leftovers',
-    'Bone-broth soup with shredded chicken & wild rice',
-    'Bison-chili bowls with cheese',
-    'Tourtière slice with beet pickles',
-    'Pickerel chowder & crackers',
-    'Roast-dinner leftovers plate'
-  ],
-  spring:[
-    'Leftover roast-chicken & wild-rice salad',
-    'Beef & spring-green wraps',
-    'Egg salad on sourdough, veg sticks',
-    'Lentil soup with yogurt swirl',
-    'Pickerel cakes with lemon mayo (from leftovers)',
-    'Big salad with steak strips (first BBQ of the year)',
-    'Frittata wedges & fruit'
-  ]
-};
-
-// Per-month: season, baby age/stage/foods, produce, 7 dinners, baby table note
-const months = [
- {name:'June 2026', short:'Jun', season:'summer', babyAge:'5 months', babyStage:'Watching & preparing — milk only',
-  produce:['Asparagus (early)','Rhubarb','Spinach & lettuce','Radishes','Green onions','Strawberries (late June)'],
-  babyFoods:['No solids yet','Baby sits at the table to watch','Gear: blender, cube trays, spoons'],
-  dinners:[
-   'Grilled grass-fed sirloin, asparagus, baby potatoes',
-   'Pasture-raised roast chicken, rhubarb chutney, rice & spinach salad',
-   'Pan-fried pickerel, lemon butter, radish-greens salad',
-   'Bison burgers (no bun option), grilled veg, strawberry spinach salad',
-   'Lentil & spinach curry with Manitoba lentils, rice',
-   'BBQ pork chops, creamy potato salad, greens',
-   'Sunday roast beef, gravy, first garden veg — save bones for broth'],
-  babyNote:'Baby joins at the table in a supported seat — watching you eat builds interest in food.'},
-
- {name:'July 2026', short:'Jul', season:'summer', babyAge:'6 months', babyStage:'First tastes! Iron-rich purées, 1×/day',
-  produce:['Strawberries & saskatoons','Peas & beans','Zucchini','New potatoes','Lettuce','First carrots'],
-  babyFoods:['Puréed grass-fed beef/bison','Iron-fortified oat cereal','Carrot, squash, zucchini purées','Egg & peanut introduction (thinned)'],
-  dinners:[
-   'Slow-simmered bison & veg — blend baby’s portion before seasoning',
-   'Grilled chicken thighs, buttered new potatoes, peas',
-   'Pickerel shore lunch: fried fillets, coleslaw, corn',
-   'Grass-fed beef kebabs, zucchini, rice',
-   'Egg frittata with market veg (baby gets plain egg purée)',
-   'Saskatoon-glazed pork tenderloin, green beans',
-   'Sunday roast chicken + bone broth for the week & baby purées'],
-  babyNote:'Set aside baby’s portion before adding salt. Simmer meat soft, blend with broth or breast milk.'},
-
- {name:'August 2026', short:'Aug', season:'summer', babyAge:'7 months', babyStage:'2 meals/day — thicker mashes',
-  produce:['Sweet corn','Tomatoes','Raspberries & saskatoons','Beans & beets','Cucumbers','Early apples'],
-  babyFoods:['Mashed (not puréed) veg & meat','Flaked pickerel, deboned','Lentil mash','Mashed raspberries with oat cereal'],
-  dinners:[
-   'Grilled bison steaks, corn on the cob, tomato salad',
-   'Chicken & veg stir-fry over rice (baby: mashed plain portions)',
-   'Baked pickerel, smashed potatoes, beans',
-   'Beef tacos with garden salsa (baby: mashed beef + avocado)',
-   'Manitoba lentil dahl, cucumber raita, rice',
-   'Burgers & a giant harvest salad',
-   'Sunday: whole roast chicken, roasted beets & carrots'],
-  babyNote:'Move from smooth to lumpy. Offer water in an open cup at meals. Freeze extra harvest purées now!'},
-
- {name:'September 2026', short:'Sep', season:'fall', babyAge:'8 months', babyStage:'Soft finger foods begin',
-  produce:['Squash & pumpkins','Apples','Carrots & parsnips','Cabbage','Potatoes & onions','Last tomatoes'],
-  babyFoods:['Steamed carrot sticks','Toast strips with thin butter','Soft pear slices','Shredded slow-cooked beef'],
-  dinners:[
-   'Slow-cooker grass-fed pot roast, carrots & potatoes',
-   'Harvest chicken & squash tray bake',
-   'Pickerel cakes, tartar sauce, slaw',
-   'Bison meatballs in tomato sauce over pasta',
-   'Cabbage-roll skillet (deconstructed cabbage rolls)',
-   'Apple-stuffed pork loin, mashed parsnips',
-   'Sunday roast turkey breast — broth + freezer stock-up day'],
-  babyNote:'Pieces should squish between your fingers. Always seated, always supervised.'},
-
- {name:'October 2026', short:'Oct', season:'fall', babyAge:'9 months', babyStage:'3 meals/day, self-feeding more',
-  produce:['Root-cellar stock-up!','Squash','Apples & crabapples','Beets','Brussels sprouts','Frozen summer berries'],
-  babyFoods:['Mini meatballs','Soft squash cubes','Scrambled egg pieces','Beans & soft-cooked apple'],
-  dinners:[
-   'Bison chili (mild base — spice adults’ bowls at the table)',
-   'Roast chicken legs, roasted Brussels & squash',
-   'Lake trout fillets, wild rice pilaf',
-   'Beef & barley stew',
-   'Squash & lentil soup with cheese toast',
-   'Thanksgiving-style roast with all the trimmings 🍁',
-   'Sunday: shepherd’s pie with grass-fed beef'],
-  babyNote:'Baby eats a mini version of every dinner now. Keep their portion unsalted and cut small.'},
-
- {name:'November 2026', short:'Nov', season:'winter', babyAge:'10 months', babyStage:'Confident finger-feeder',
-  produce:['Cold-room veg: squash, beets, carrots, cabbage, potatoes','Frozen berries','Stored apples'],
-  babyFoods:['Shredded pot roast','Soft veg from stews','Oat-banana pancakes','Yogurt (plain, full-fat)'],
-  dinners:[
-   'Slow-cooker beef stew with root veg',
-   'Roast chicken, mashed potatoes, glazed carrots',
-   'Pickerel chowder with bacon & corn (from frozen)',
-   'Bison meatloaf, roasted beets',
-   'Manitoba lentil & wild-rice soup, bannock',
-   'Pork & sauerkraut with potatoes',
-   'Sunday roast beef + big batch bone broth'],
-  babyNote:'Stews are perfect baby food — soft, varied, iron-rich. Just rinse or set aside before salting.'},
-
- {name:'December 2026', short:'Dec', season:'winter', babyAge:'11 months', babyStage:'Almost at the family table',
-  produce:['Cold-room & freezer staples','Frozen saskatoons & cherries','Stored squash & roots'],
-  babyFoods:['Nearly everything the family eats, chopped','Soft cheese cubes','Holiday turkey & soft veg'],
-  dinners:[
-   'Tourtière (prairie meat pie) with beet pickles',
-   'Roast chicken, stuffing, green beans (from frozen)',
-   'Baked whitefish, lemon, rice & peas',
-   'Bison stroganoff over egg noodles',
-   'Split-pea & ham soup, rye bread',
-   'Christmas: local roast turkey, mashed potatoes, saskatoon sauce 🎄',
-   'Boxing-week leftovers remix night'],
-  babyNote:'Holiday plates work for baby too — skip the salty gravy and honey-glazed items until 12 months.'},
-
- {name:'January 2027', short:'Jan', season:'winter', babyAge:'12 months 🎉', babyStage:'Family table! Whole milk OK, honey OK',
-  produce:['Root cellar & freezer','Sprouting trays on the windowsill','Citrus from the store for vitamin C'],
-  babyFoods:['Eats family meals, chopped small','Whole pasteurized milk in a cup','3 meals + 2 snacks'],
-  dinners:[
-   'Slow-cooker pulled bison with mashed squash',
-   'Whole roast chicken, root veg, gravy',
-   'Pickerel fillets, potato wedges, frozen peas',
-   'Grass-fed beef & bean chili with cornbread',
-   'Chicken-noodle soup from Sunday’s broth',
-   'Beef pot pie with cold-room veg',
-   'Sunday roast pork shoulder, applesauce, cabbage'],
-  babyNote:'One pot, three plates: cut baby’s small, keep salt light for the whole pot, season at the table.'},
-
- {name:'February 2027', short:'Feb', season:'winter', babyAge:'13 months', babyStage:'Toddler appetite swings — keep offering',
-  produce:['Cold-room veg (use up beets & cabbage)','Frozen fish & berries','Manitoba grains & lentils'],
-  babyFoods:['Self-feeds with hands + spoon practice','Loves: meatballs, berries, cheese, oat pancakes'],
-  dinners:[
-   'Bison meatballs & tomato sauce on pasta',
-   'Roast chicken thighs, wild rice, frozen green beans',
-   'Lake trout, roasted potatoes, slaw',
-   'Beef barley soup, buttered bread',
-   'Breakfast-for-dinner: eggs, sausage, oat pancakes',
-   'Slow-cooker beef short ribs, mash',
-   'Sunday: roast chicken + broth (the winter rhythm holds)'],
-  babyNote:'Appetite dips are normal at this age. Keep portions small and let toddler ask for more.'},
-
- {name:'March 2027', short:'Mar', season:'winter', babyAge:'14 months', babyStage:'Eats what you eat — cut safely',
-  produce:['Last of the root cellar','Freezer fish & beef','Start seedlings for the garden 🌱'],
-  babyFoods:['Family meals, halved grapes/cherries','Practising fork skills','Open cup mastered'],
-  dinners:[
-   'Maple-glazed pork tenderloin (syrup season!), roasted carrots',
-   'Bison shepherd’s pie',
-   'Pickerel fish-fry Friday, oven fries, peas',
-   'Chicken & dumpling stew',
-   'Lentil bolognese on spaghetti',
-   'Grass-fed striploin steaks, baked potatoes (a March treat)',
-   'Sunday roast chicken, the last stored squash'],
-  babyNote:'Toddler-proof the plate: no whole nuts, halve round foods, watch hot dishes within reach.'},
-
- {name:'April 2027', short:'Apr', season:'spring', babyAge:'15 months', babyStage:'Adventurous (some days) toddler',
-  produce:['First greenhouse greens','Stored potatoes & onions','Freezer berries running the last mile'],
-  babyFoods:['Everything, chopped','New textures: shredded slaw softened, quinoa','Dipping is fun — yogurt dips'],
-  dinners:[
-   'Roast chicken, smashed potatoes, first fresh greens',
-   'Bison tacos with slaw',
-   'Whitefish en papillote with lemon & herbs',
-   'Beef stir-fry with storage carrots & frozen peas',
-   'Spring lentil soup with yogurt swirl',
-   'Grilled pork chops (BBQ is back!), potato salad',
-   'Sunday roast beef, Yorkshire puddings'],
-  babyNote:'Let toddler dip, smear and explore. Mess is part of learning to eat well.'},
-
- {name:'May 2027', short:'May', season:'spring', babyAge:'16 months', babyStage:'Full family eater — one year of solids!',
-  produce:['Asparagus','Rhubarb','Spinach & radishes','Chives & green onions','Plant the garden for round two 🌱'],
-  babyFoods:['Family meals, full stop','Helping: washing veg, stirring (supervised)','Favourite foods chart on the fridge'],
-  dinners:[
-   'First-grill night: grass-fed burgers, asparagus, salad',
-   'Roast chicken with rhubarb-honey glaze',
-   'Pickerel opener! Fresh-caught fry with spring greens',
-   'Bison kebabs, rice, radish tzatziki',
-   'Spinach & egg frittata, new greens salad',
-   'Steak night with chimichurri from windowsill herbs',
-   'Sunday celebration roast — one full year around the family table 🎉'],
-  babyNote:'A year ago they were watching from the high chair. Now they’re eating saskatoons by the fistful.'}
-];
-
-const dayNames = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-
-/* ============ render month bar ============ */
-const monthBar = document.getElementById('monthBar');
-months.forEach((m,i)=>{
-  const b=document.createElement('button');
-  b.innerHTML=`<span class="season-dot" style="background:${seasons[m.season].color}"></span>${m.short}<small>${m.babyAge.replace(' 🎉','')}</small>`;
-  b.addEventListener('click',()=>selectMonth(i));
-  monthBar.appendChild(b);
+/* kitchen buttons */
+$('#btnNewWeek').addEventListener('click', ()=>{
+  if(confirm('Start a fresh week? Planned & cooked days reset (XP and trophies are kept).')){
+    state.week=freshWeek(); save(); renderBoard();
+    toast('🔄 New week, fresh board. Plan away!');
+  }
 });
-
-function selectMonth(i){
-  monthBar.querySelectorAll('button').forEach((b,j)=>b.classList.toggle('sel',j===i));
-  const m=months[i], s=seasons[m.season];
-  const view=document.getElementById('monthView');
-  view.innerHTML=`
-    <div class="month-head">
-      <h3>${m.name}</h3>
-      <span class="pill" style="background:${s.color}">${s.label} in Manitoba</span>
-      <span class="pill" style="background:var(--terracotta)">👶 ${m.babyAge} — ${m.babyStage}</span>
-    </div>
-    <div class="info-strip">
-      <div class="card"><h4>🥕 In season / in store</h4><div class="chiplist">${m.produce.map(p=>`<span class="chip">${p}</span>`).join('')}</div></div>
-      <div class="card"><h4>👶 Baby foods this month</h4><div class="chiplist">${m.babyFoods.map(p=>`<span class="chip baby">${p}</span>`).join('')}</div></div>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin-bottom:10px">📋 Weekly rotation — repeat each week of the month, swapping veg with what the market or cold room offers. ${lunchNote}</p>
-    <div class="day-accordion">${dayNames.map((d,di)=>`
-      <div class="day${di===0?' open':''}">
-        <button class="day-head" aria-expanded="${di===0}">
-          <span class="dname">${d}</span>
-          <span class="preview">${m.dinners[di]}</span>
-          <span class="arrow">▶</span>
-        </button>
-        <div class="day-body">
-          <div class="meal-row"><span class="mlabel">Breakfast</span><span>${breakfasts[m.season][di]}</span></div>
-          <div class="meal-row"><span class="mlabel">Lunch</span><span>${lunches[m.season][di]}</span></div>
-          <div class="meal-row"><span class="mlabel">Dinner</span><span>${m.dinners[di]}</span></div>
-          <div class="meal-row babyrow"><span class="mlabel">👶 Baby</span><span>${m.babyNote}</span></div>
-        </div>
-      </div>`).join('')}
-    </div>`;
-  view.querySelectorAll('.day-head').forEach(h=>h.addEventListener('click',()=>{
-    const day=h.parentElement, open=day.classList.toggle('open');
-    h.setAttribute('aria-expanded',open);
-  }));
-}
-selectMonth(0);
-
-/* ============ checklists ============ */
-const lists={
- sat:[
-  'Check the freezer & cold room first — shop only the gaps',
-  'Proteins for the week: 1 roast/slow-cook cut, 1 whole chicken, fish ×2, ground bison/beef, eggs ×2 dozen',
-  'Veg & fruit: what’s seasonal + salad basics + baby’s soft fruits',
-  'Staples check: oats, wild rice, lentils, butter, olive oil, yogurt',
-  'Summer only: farmers’ market / CSA pickup / U-pick berries'],
- sun:[
-  'Roast the whole chicken (dinner tonight + lunches)',
-  'Start bone broth in the slow cooker (overnight)',
-  'Batch-cook one big pot: chili, stew or soup → fridge ×2 days + freezer ×2 portions',
-  'Cook a pot of wild rice or steel-cut oats for the week',
-  'Wash & chop veg: snack sticks, salad base, roast-ready trays',
-  'Boil 6 eggs for grab-and-go',
-  'Mix one jar of vinaigrette & one yogurt dip',
-  'Label everything with painter’s tape + marker'],
- baby:[
-  'Simmer 200 g grass-fed beef or bison until very soft; blend with broth → cube tray',
-  'Steam & purée/mash 2 vegetables (whatever’s seasonal) → cube trays',
-  'Mash 1 fruit (banana, pear, berries) → small jars for 2 days',
-  'Portion plain yogurt & oat cereal for the week (6 m+)',
-  'Thaw tomorrow’s cubes in the fridge overnight',
-  'Restock the allergen rotation: egg, peanut (thinned), fish, wheat, dairy'],
- week:[
-  'Mon — eat the batch-cook pot (zero cooking)',
-  'Tue — fish night: thaw in the morning, pan-fry in 15 min',
-  'Wed — slow-cooker day: load it at breakfast',
-  'Thu — leftovers remix or breakfast-for-dinner',
-  'Fri — fun night: tacos, burgers or shore-lunch fry',
-  'Sat — market day + simple grill or tray bake',
-  'Sun — roast day & next week’s prep']
-};
-
-document.querySelectorAll('[data-list]').forEach(holder=>{
-  const key=holder.dataset.list;
-  const saved=JSON.parse(localStorage.getItem('fmtchecks-'+key)||'[]');
-  lists[key].forEach((txt,i)=>{
-    const label=document.createElement('label');
-    label.className='check-item';
-    const cb=document.createElement('input');
-    cb.type='checkbox'; cb.checked=saved.includes(i);
-    if(cb.checked) label.classList.add('done');
-    const span=document.createElement('span'); span.textContent=txt;
-    cb.addEventListener('change',()=>{
-      label.classList.toggle('done',cb.checked);
-      const now=[...holder.querySelectorAll('input')].map((c,j)=>c.checked?j:-1).filter(j=>j>=0);
-      localStorage.setItem('fmtchecks-'+key,JSON.stringify(now));
-      updateProgress(holder);
-    });
-    label.append(cb,span); holder.appendChild(label);
+$('#btnAutofill').addEventListener('click', ()=>{
+  const sn=seasonNow();
+  const ranked=[...RECIPES].sort((a,b)=>{
+    const ma=missingFor(a).length, mb=missingFor(b).length;
+    if(ma!==mb) return ma-mb;
+    return (b.seasons.includes(sn)?1:0)-(a.seasons.includes(sn)?1:0) || Math.random()-.5;
   });
-  updateProgress(holder);
+  const used=new Set();
+  DAYS.forEach((_,i)=>{
+    if(state.week[i].recipeId) { used.add(state.week[i].recipeId); return; } // keep manual picks
+    const pick=ranked.find(r=>!used.has(r.id));
+    if(pick){ used.add(pick.id); state.week[i]={recipeId:pick.id, cooked:false}; }
+  });
+  save(); renderBoard(); checkAchievements();
+  toast('✨ Week auto-planned from your pantry — swap any day you like.');
 });
-function updateProgress(holder){
-  const boxes=[...holder.querySelectorAll('input')];
-  const pct=boxes.length?Math.round(100*boxes.filter(b=>b.checked).length/boxes.length):0;
-  holder.parentElement.querySelector('.progress div').style.width=pct+'%';
-}
+
+/* pantry buttons */
+$('#btnStarter').addEventListener('click', ()=>{
+  STARTER_KIT.forEach(i=>{ if(!state.pantry.includes(i)) state.pantry.push(i); });
+  save(); renderPantry(); renderBoard(); renderBook(); checkAchievements();
+  toast('🧺 Starter kit stocked — '+STARTER_KIT.length+' everyday items added.');
+});
+$('#btnClearPantry').addEventListener('click', ()=>{
+  if(confirm('Empty the whole pantry?')){ state.pantry=[]; save(); renderPantry(); renderBoard(); renderBook(); }
+});
+
+/* book search */
+$('#bookSearch').addEventListener('input', e=>{ bookQuery=e.target.value.trim().toLowerCase(); renderBook(); });
+
+/* =====================================================
+   BOOT
+===================================================== */
+renderHUD(); renderBoard(); renderPantry(); renderBookFilters(); renderBook(); renderTrophies(); renderFamily();
 </script>
 </body>
 </html>
